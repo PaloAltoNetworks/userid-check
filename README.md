@@ -12,7 +12,7 @@ Before we dive in, let's go over the prerequisites for using this tool. First, m
 ```
 Any text editor will do as long as you save it in basic text format.  If there are any errors in the file, (ie extra carriage returns, invalid IP's) the tool will tell you and skip them.  Do not use FQDN's.  IP Addresses only.
 
-Below is a logic flowchart of the tool:
+# Logic Flowchart
 
 ![alt text](https://github.com/rlemm-pan/userid-check/blob/main/flowchart.png?raw=true)
 
