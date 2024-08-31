@@ -524,13 +524,13 @@ if args.c:
 
         for x in panos_list:
             if x[5]  == 'Supported PANOS Version':
-                supported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
+                supported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #afff5f")
             else:
                 if x[6]  == 'No' and x[7] == 'No':
                     ignore_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
                     devices_no_agent+=1
                 else:
-                    unsupported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
+                    unsupported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #ffff87")
 
     with open(panos_agents, 'w') as s:
         write = csv.writer(s)
@@ -539,28 +539,28 @@ if args.c:
 
         for x in agent_list:
             if x[3] == "Supported Agent Version":
-                supported_agent_table.add_row(x[0], x[1], x[2], x[3])
+                supported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #afff5f")
 
             else:
-                unsupported_agent_table.add_row(x[0], x[1], x[2], x[3])
+                unsupported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #ffff87")
 
 else:
     for x in panos_list:
         if x[5]  == 'Supported PANOS Version':
-            supported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
+            supported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #afff5f")
         else:
             if x[6]  == 'No' and x[7] == 'No':
                 ignore_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
                 devices_no_agent+=1
             else:
-                unsupported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
+                unsupported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #ffff87")
 
     for x in agent_list:
         if x[3] == "Supported Agent Version":
-            supported_agent_table.add_row(x[0], x[1], x[2], x[3])
+            supported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #afff5f")
 
         else:
-            unsupported_agent_table.add_row(x[0], x[1], x[2], x[3])
+            unsupported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #ffff87")
 
 if supported_panos_table.row_count > 0:
     console.print(supported_panos_table)
