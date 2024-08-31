@@ -18,7 +18,7 @@ Below is a logic flowchart of the tool:
 
 ## Considerations:
 
-### Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
+### 1.  Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
 
 
 ## Step 1:
