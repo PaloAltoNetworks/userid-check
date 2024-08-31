@@ -16,7 +16,7 @@ Below is a logic flowchart of the tool:
 
 ![alt text](https://github.com/rlemm-pan/userid-check/blob/main/flowchart.png?raw=true)
 
-## Considerations:
+# Considerations:
 
 1.  Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
 2.  The tool does make SSL/TLS Calls to the Agents to determine the Certificate Expiration Date.
