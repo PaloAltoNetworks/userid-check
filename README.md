@@ -18,11 +18,11 @@ Below is a logic flowchart of the tool:
 
 ## Considerations:
 
-#### 1.  Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
-#### 2.  The tool does make SSL/TLS Calls to the Agents to determine the Certificate Expiration Date.
-#### 3.  The Terminal Server Agent does not report its current version correctly.  This is a known issue.  However, the tool is correctly determining if you are affected by making the SSL/TLS call to the Terminal Server Agent.
-#### 4.  No changes are made to your devices with this tool.  The tool only gathers info using API and SSL calls to the devices listed in your text file and agents discovered on your PANOS Devices.
-#### 5.  If you have affected PANOS devices and Agents, you should consider having at least 2 Agents tied to each affected PANOS Device before upgrading.  Once the Agent or PANOS device is upgraded, it will lose connectivity to anything running an affected version.  So, to ensure connectivity is restored after the upgrade process, your order of operation should be to upgrade the 1st Agent, then the PANOS devices, and the 2nd Agent last.
+1.  Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
+2.  The tool does make SSL/TLS Calls to the Agents to determine the Certificate Expiration Date.
+3.  The Terminal Server Agent does not report its current version correctly.  This is a known issue.  However, the tool is correctly determining if you are affected by making the SSL/TLS call to the Terminal Server Agent.
+4.  No changes are made to your devices with this tool.  The tool only gathers info using API and SSL calls to the devices listed in your text file and agents discovered on your PANOS Devices.
+5.  If you have affected PANOS devices and Agents, you should consider having at least 2 Agents tied to each affected PANOS Device before upgrading.  Once the Agent or PANOS device is upgraded, it will lose connectivity to anything running an affected version.  So, to ensure connectivity is restored after the upgrade process, your order of operation should be to upgrade the 1st Agent, then the PANOS devices, and the 2nd Agent last.
 
 
 ## Step 1:
