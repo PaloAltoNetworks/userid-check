@@ -2,7 +2,6 @@
 This tool empowers you to effortlessly determine the PAN-OS Version and User-ID/Terminal Server Agent Versions running on your Palo Alto Networks Next Generation Firewalls and Panorama devices. The primary objective is to ensure that your devices operate on a PAN-OS and Agent version unaffected by the expiration of certificates on November 18th, 2024.  For further details, please refer to this link below:
 
 ### [Certificate Expiration on November 18, 2024](https://live.paloaltonetworks.com/t5/customer-advisories/update-to-additional-pan-os-certificate-expirations-and-new/ta-p/572158)
-564672)
 
 Before we dive in, let's go over the prerequisites for using this tool. First, make sure you're running Python version 3.x or greater on the host you will be using to run this tool. Second, create a text file containing the IP addresses of your PANOS Next Generation Firewalls and Panorama devices. Save this file in the same location where you'll run the Self Impact Discovery Tool.  Below is an Example:
 
