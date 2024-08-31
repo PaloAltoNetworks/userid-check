@@ -19,6 +19,8 @@ Below is a logic flowchart of the tool:
 ## Considerations:
 
 ### 1.  Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
+### 2.  The tool does make SSL/TLS Calls to the Agents to determine the Certificate Expiration Date.
+### 3.  The Terminal Server Agent does not report its current version correctly.  This is a known issue.  However, the tool is correctly determining if you are affected by making the SSL/TLS call to the Terminal Server Agent.
 
 
 ## Step 1:
