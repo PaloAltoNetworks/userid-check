@@ -16,9 +16,9 @@ Below is a logic flowchart of the tool:
 
 ![alt text](https://github.com/rlemm-pan/userid-check/blob/main/flowchart.png?raw=true)
 
-### Considerations:
+## Considerations:
 
-## Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
+### Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
 
 
 ## Step 1:
