@@ -16,6 +16,11 @@ Below is a logic flowchart of the tool:
 
 ![alt text](https://github.com/rlemm-pan/userid-check/blob/main/flowchart.png?raw=true)
 
+### Considerations:
+
+## Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
+
+
 ## Step 1:
 
 Download the tool from this site by clicking on the Green Button in the Upper Right-Hand corner labeled "Code." Next, click on "Download ZIP." This action will download everything you need to proceed to the following steps.
@@ -72,7 +77,7 @@ Usage Examples:
 
 optional arguments:
   -h, --help  show this help message and exit
-  -x          Optional - Disable Links Pop-Up
+  -x          Optional - Disable Advisory Link Pop-Up
   -w [W]      Optional - Create WebPage from output.  If no file is specified after '-w', then 'output.html' will be used
   -o          Requires '-w' - Open Results in Web Browser
   -c          Writes CSV
