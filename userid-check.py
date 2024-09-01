@@ -25,6 +25,14 @@ requests.packages.urllib3.disable_warnings()
 from OpenSSL import SSL
 import socket
 import datetime
+
+import matplotlib.pyplot as plt
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+from matplotlib.cbook import get_sample_data
+import io
+from PIL import Image
+import networkx as nx
+
 # from termcolor import colored
 # import pyfiglet
 # # fonts = pyfiglet.FigletFont.getFonts()
@@ -34,7 +42,7 @@ e = ""
 
 parser = argparse.ArgumentParser(add_help=True,
                     formatter_class=RawTextHelpFormatter,
-                    description='Usage Examples: \n\n\tpython3 redist-check.py -x\n\n\tpython3 redist-check.py -xw\n\n\tpython3 redist-check.py -xow\n\n\tpython3 redist-check.py -cxow\n\n\tpython3 redist-check.py -xw yourfile.html\n\n\tpython3 redist-check.py -xow yourfile.html\n\n\tpython3 redist-check.py -pcxow yourfile.html')
+                    description='Usage Examples: \n\n\tpython3 redist-check.py -x\n\n\tpython3 redist-check.py -x -w\n\n\tpython3 redist-check.py -x -o -w\n\n\tpython3 redist-check.py -c -x -o -w\n\n\tpython3 redist-check.py -x -w yourfile.html\n\n\tpython3 redist-check.py -x -o -w yourfile.html\n\n\tpython3 redist-check.py -c -x -o -w yourfile.html\n\n\tpython3 redist-check.py -c -x -o -w -n\n\n\tpython3 redist-check.py -c -x -o -w yourfile.html -n yourdiagram.png')
 
 parser.add_argument("-x", action = "store_true", help="Optional - Disable Links Pop-Up")
 
@@ -43,6 +51,8 @@ parser.add_argument("-w", required='-o' in sys.argv, nargs='?', const='output.ht
 parser.add_argument("-o", action = "store_true", help="Requires '-w' - Open Results in Web Browser")
 
 parser.add_argument("-c", action = "store_true", help="Writes CSV (2 total)")
+
+parser.add_argument("-n", required='-o' in sys.argv, nargs='?', const='diagram.png', help="Optional - Create Relational Diagram of Devices and Agents.  If no file is specified after '-n', then 'diagram.png' will be used")
 
 args = parser.parse_args()
 
@@ -54,6 +64,11 @@ else:
 if args.w:
     html_file = args.w
     console = Console(record=True)
+else:
+    console = Console()
+
+if args.n:
+    diagram = args.n
 else:
     console = Console()
 
@@ -128,6 +143,7 @@ agent_ip_failed = []
 total_devices = []
 panos_list = []
 agent_list = []
+agent_diagram_list = []
 panos_devices = 'panos-devices.csv'
 panos_agents = 'panos-agents.csv'
 
@@ -166,7 +182,7 @@ def get_devices():
         raise SystemExit(1)
 
 def process_list(ip):
-    global reachable_count, agents_checked, devices_failed, agents_failed, agent_ip, agent_ip_failed, total_devices, panos_list, agent_list, not_reachable
+    global reachable_count, agents_checked, devices_failed, agents_failed, agent_ip, agent_ip_failed, total_devices, panos_list, agent_list, not_reachable, agent_diagram_list
     skip = False
     sys_info_response = ''
     api_response = ''
@@ -353,6 +369,7 @@ def process_list(ip):
                                     device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
                                     agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
                                     agent_ip.append(userid_agent_ip)
+                                    agent_diagram_list.append([userid_agent_ip, devicename, serial, ip])
 
                                 else:
                                     agent_upgrade = "Supported Agent Version"
@@ -411,6 +428,7 @@ def process_list(ip):
                                     device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, ts_agent_ip, agent_type, 'N/A', agent_upgrade)
                                     agent_list.append([ts_agent_ip, agent_type, 'N/A', agent_upgrade])
                                     agent_ip.append(ts_agent_ip)
+                                    agent_diagram_list.append([ts_agent_ip, devicename, serial, ip])
 
                                 else:
                                     agent_upgrade = "Supported Agent Version"
@@ -493,6 +511,30 @@ def process_list(ip):
         skip = False
         total_devices.append(ip)
         pass
+
+def fig2img(fig):
+    buf = io.BytesIO()
+    fig.savefig(buf)
+    buf.seek(0)
+    img = Image.open(buf)
+    return img
+
+def getImage(path, zoom=1):
+    return OffsetImage(plt.imread(path), zoom=zoom)
+
+def create_diagram(my_list):
+    global diagram
+    plt.rcParams["figure.figsize"] = (18, 10)
+
+    nxG = nx.Graph()
+    for x in my_list:
+        nxG.add_node("Agent IP: \n\n"+x[0])
+        nxG.add_edge("Agent IP: \n\n"+x[0], "PANOS Device:\n"+x[1]+'\n\n'+x[2]+'\n'+x[3])
+
+    nx.draw(nxG, with_labels=True, pos=nx.circular_layout(nxG))
+    fig = plt.gcf()
+    img = fig2img(fig)
+    img.save(diagram)
 
 def multi_processing():
     pool = ThreadPool(processes=os.cpu_count())
@@ -626,10 +668,23 @@ console.print(results_table)
 
 if args.w:
     console.save_html(html_file)
-    if args.o:
-        webbrowser.open('file://'+os.path.dirname(os.path.realpath(__file__))+'/'+html_file, new = 2)
-    else:
-        pass
+else:
+    pass
+
+if args.n:
+    agent_diagram_list.sort()
+    agent_diagram_list = [agent_diagram_list[i] for i in range(len(agent_diagram_list)) if i == 0 or agent_diagram_list[i] != agent_diagram_list[i-1]]
+    create_diagram(agent_diagram_list)
+    with open(html_file, 'a') as file:
+        file.write('<center><p><font size="+6">Relational Diagram</font></p><br><br><img src="'+diagram+'" alt="Relational Diagram"></center>')
+    file.close()
+else:
+    pass
+
+if args.o:
+    webbrowser.open('file://'+os.path.dirname(os.path.realpath(__file__))+'/'+html_file, new = 2)
+else:
+    pass
 
 print("\n\n")
 k=input("press Enter to exit")
