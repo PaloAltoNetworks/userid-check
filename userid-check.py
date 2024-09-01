@@ -369,7 +369,7 @@ def process_list(ip):
                                     device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
                                     agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
                                     agent_ip.append(userid_agent_ip)
-                                    agent_diagram_list.append([userid_agent_ip, model, devicename, serial, ip])
+                                    agent_diagram_list.append([userid_agent_ip, agent_type, model, devicename, serial, ip])
 
                                 else:
                                     agent_upgrade = "Supported Agent Version"
@@ -428,7 +428,7 @@ def process_list(ip):
                                     device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, ts_agent_ip, agent_type, 'N/A', agent_upgrade)
                                     agent_list.append([ts_agent_ip, agent_type, 'N/A', agent_upgrade])
                                     agent_ip.append(ts_agent_ip)
-                                    agent_diagram_list.append([ts_agent_ip, model, devicename, serial, ip])
+                                    agent_diagram_list.append([ts_agent_ip, agent_type, model, devicename, serial, ip])
 
                                 else:
                                     agent_upgrade = "Supported Agent Version"
@@ -522,15 +522,13 @@ def fig2img(fig):
 def create_diagram(my_list):
     global diagram
     plt.rcParams["figure.figsize"] = (18, 10)
-
     icons = {"agent": "agent.png", "device": "palo.png",}
-
     images = {k: PIL.Image.open(fname) for k, fname in icons.items()}
     nxG = nx.Graph()
     for x in my_list:
-        nxG.add_node("Agent\n\n\n"+x[0], image=images["agent"])
-        nxG.add_node(x[1]+'\n'+x[2]+'\n\n\n'+x[3]+'\n'+x[4], image=images["device"])
-        nxG.add_edge("Agent\n\n\n"+x[0], x[1]+'\n'+x[2]+'\n\n\n'+x[3]+'\n'+x[4])
+        nxG.add_node(x[1]+" Agent\n\n\n"+x[0], image=images["agent"])
+        nxG.add_node(x[2]+'\n'+x[3]+'\n\n\n'+x[4]+'\n'+x[5], image=images["device"])
+        nxG.add_edge(x[1]+" Agent\n\n\n"+x[0], x[2]+'\n'+x[3]+'\n\n\n'+x[4]+'\n'+x[5])
 
     pos = nx.circular_layout(nxG)
     fig, ax = plt.subplots()
@@ -545,6 +543,7 @@ def create_diagram(my_list):
         a = plt.axes([xa - icon_center, ya - icon_center, icon_size, icon_size])
         a.imshow(nxG.nodes[n]["image"])
         a.axis("off")
+
     fig = plt.gcf()
     img = fig2img(fig)
     img.save(diagram)
