@@ -21,11 +21,9 @@ import webbrowser
 import argparse
 import ipaddress
 from argparse import RawTextHelpFormatter
-requests.packages.urllib3.disable_warnings()
 from OpenSSL import SSL
 import socket
 import datetime
-
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.cbook import get_sample_data
@@ -33,11 +31,12 @@ import io
 import PIL
 from PIL import Image
 import networkx as nx
+from termcolor import colored
+import pyfiglet
+requests.packages.urllib3.disable_warnings()
 
-# from termcolor import colored
-# import pyfiglet
-# # fonts = pyfiglet.FigletFont.getFonts()
-# print((colored(pyfiglet.figlet_format("Certificate Expiry Tool", font='larry3d', width = 100, justify = 'center'), color = 'red')))
+# fonts = pyfiglet.FigletFont.getFonts()
+print((colored(pyfiglet.figlet_format("Certificate Expiry Tool", font='larry3d', width = 100, justify = 'center'), color = 'red')))
 
 e = ""
 
