@@ -99,13 +99,13 @@ This will display usage examples and different argument options available for th
 
 '-x' argument will suppress the Pop-Up Links for the KB and Instructions at the beginning.
 
-'-w' argument will create an HTML file of the results.  You can specify an HTML filename of your choice if desired.
+'-w' argument will create an HTML file of the results.  You can specify an HTML filename if desired.
 
 '-o' argument will open the HTML file in your browser at completion.
 
 '-c' argument will create csv files at completion.
 
-'-n' argument will add a Relational Diagram to the HTML file.  You can specify a PNG filename of your choice if desired.
+'-n' argument will add a Relational Diagram to the HTML file.  You can specify a PNG filename if desired.
 
 ### These arguments are optional and not required.
 
