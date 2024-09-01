@@ -63,28 +63,35 @@ After installing the requirements, type the following command:
 ```console
 python3 userid-check.py -h
 
-usage: userid-check.py [-h] [-x] [-w [W]] [-o] [-c]
+usage: userid-check.py [-h] [-x] [-w [W]] [-o] [-c] [-n [N]]
 
 Usage Examples:
 
-	python3 userid-check.py -x
+	python3 redist-check.py -x
 
-	python3 userid-check.py -xw
+	python3 redist-check.py -x -w
 
-	python3 userid-check.py -xow
+	python3 redist-check.py -x -o -w
 
-	python3 userid-check.py -cxow
+	python3 redist-check.py -c -x -o -w
 
-	python3 userid-check.py -xw yourfile.html
+	python3 redist-check.py -x -w yourfile.html
 
-	python3 userid-check.py -xow yourfile.html
+	python3 redist-check.py -x -o -w yourfile.html
+
+	python3 redist-check.py -c -x -o -w yourfile.html
+
+	python3 redist-check.py -c -x -o -w -n
+
+	python3 redist-check.py -c -x -o -w yourfile.html -n yourdiagram.png
 
 optional arguments:
   -h, --help  show this help message and exit
-  -x          Optional - Disable Advisory Link Pop-Up
+  -x          Optional - Disable Links Pop-Up
   -w [W]      Optional - Create WebPage from output.  If no file is specified after '-w', then 'output.html' will be used
   -o          Requires '-w' - Open Results in Web Browser
-  -c          Writes CSV
+  -c          Writes CSV (2 total)
+  -n [N]      Optional - Create Relational Diagram of Devices and Agents.  If no file is specified after '-n', then 'diagram.png' will be used
 
 ```
 
