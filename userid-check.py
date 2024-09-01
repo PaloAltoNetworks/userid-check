@@ -532,7 +532,7 @@ def create_diagram(my_list):
 
     pos = nx.circular_layout(nxG)
     fig, ax = plt.subplots()
-    nx.draw(nxG, with_labels=True, arrows=True, arrowstyle="-", ax=ax, pos=pos, node_size=0, min_source_margin=15, min_target_margin=15,)
+    nx.draw(nxG, with_labels=True, arrows=True, arrowstyle="-", ax=ax, pos=pos, edge_color='lightgrey', font_weight='bold', width=2, node_size=0, min_source_margin=15, min_target_margin=15,)
     tr_figure = ax.transData.transform
     tr_axes = fig.transFigure.inverted().transform
     icon_size = (ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.0125
