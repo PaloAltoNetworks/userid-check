@@ -120,7 +120,7 @@ python userid-check.py
 ```
 You'll be prompted to enter the name of the text file you created earlier and your credentials. Ensure you use credentials with API access rights. MFA credentials will not work with this tool. Use a common local service account; superuser rights are not necessary, readonly-superuser will work.
 
-Once the tool finishes running, you'll see results with different colors. Green indicates no action is needed, yellow means action is required based on the advisory explained in the links on this GitRepo and no color means the devices are not configured with Agents and are for informational purposes only.
+Once the tool finishes running, you'll see results with different colors. Green indicates no action is needed, yellow means action is required based on the advisory explained in the links on this GitRepo and no color means the devices are not configured with Agents and are for informational purposes only.  If the '-n' option is selected, a relational diagram of your affected PANOS Devices and Agents will be created and added to the HTML output for reference.  
 
 Example:
 
