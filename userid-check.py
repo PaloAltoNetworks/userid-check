@@ -369,7 +369,7 @@ def process_list(ip):
                                     device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
                                     agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
                                     agent_ip.append(userid_agent_ip)
-                                    agent_diagram_list.append([userid_agent_ip, devicename, serial, ip])
+                                    agent_diagram_list.append([userid_agent_ip, model, devicename, serial, ip])
 
                                 else:
                                     agent_upgrade = "Supported Agent Version"
@@ -428,7 +428,7 @@ def process_list(ip):
                                     device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, ts_agent_ip, agent_type, 'N/A', agent_upgrade)
                                     agent_list.append([ts_agent_ip, agent_type, 'N/A', agent_upgrade])
                                     agent_ip.append(ts_agent_ip)
-                                    agent_diagram_list.append([ts_agent_ip, devicename, serial, ip])
+                                    agent_diagram_list.append([ts_agent_ip, model, devicename, serial, ip])
 
                                 else:
                                     agent_upgrade = "Supported Agent Version"
@@ -528,8 +528,8 @@ def create_diagram(my_list):
 
     nxG = nx.Graph()
     for x in my_list:
-        nxG.add_node("Agent IP: \n\n"+x[0])
-        nxG.add_edge("Agent IP: \n\n"+x[0], "PANOS Device:\n"+x[1]+'\n\n'+x[2]+'\n'+x[3])
+        nxG.add_node("Agent\n\n"+x[0])
+        nxG.add_edge("Agent\n\n"+x[0], x[1]+'\n'+x[2]+'\n\n'+x[3]+'\n'+x[4])
 
     nx.draw(nxG, with_labels=True, pos=nx.circular_layout(nxG))
     fig = plt.gcf()
@@ -668,6 +668,13 @@ console.print(results_table)
 
 if args.w:
     console.save_html(html_file)
+    with open(html_file, 'r') as file:
+      filedata = file.read()
+
+    filedata = filedata.replace('<body>', '<body><center>').replace('</body>', '</body></center>')
+
+    with open(html_file, 'w') as file:
+      file.write(filedata)
 else:
     pass
 
