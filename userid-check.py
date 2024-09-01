@@ -30,6 +30,7 @@ import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.cbook import get_sample_data
 import io
+import PIL
 from PIL import Image
 import networkx as nx
 
@@ -519,19 +520,32 @@ def fig2img(fig):
     img = Image.open(buf)
     return img
 
-def getImage(path, zoom=1):
-    return OffsetImage(plt.imread(path), zoom=zoom)
-
 def create_diagram(my_list):
     global diagram
     plt.rcParams["figure.figsize"] = (18, 10)
 
+    icons = {"agent": "agent.png", "device": "palo.png",}
+
+    images = {k: PIL.Image.open(fname) for k, fname in icons.items()}
     nxG = nx.Graph()
     for x in my_list:
-        nxG.add_node("Agent\n\n"+x[0])
-        nxG.add_edge("Agent\n\n"+x[0], x[1]+'\n'+x[2]+'\n\n'+x[3]+'\n'+x[4])
+        nxG.add_node("Agent\n\n\n"+x[0], image=images["agent"])
+        nxG.add_node(x[1]+'\n'+x[2]+'\n\n\n'+x[3]+'\n'+x[4], image=images["device"])
+        nxG.add_edge("Agent\n\n\n"+x[0], x[1]+'\n'+x[2]+'\n\n\n'+x[3]+'\n'+x[4])
 
-    nx.draw(nxG, with_labels=True, pos=nx.circular_layout(nxG))
+    pos = nx.circular_layout(nxG)
+    fig, ax = plt.subplots()
+    nx.draw(nxG, with_labels=True, arrows=True, arrowstyle="-", ax=ax, pos=pos, node_size=0, min_source_margin=15, min_target_margin=15,)
+    tr_figure = ax.transData.transform
+    tr_axes = fig.transFigure.inverted().transform
+    icon_size = (ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.0125
+    icon_center = icon_size / 2.0
+    for n in nxG.nodes:
+        xf, yf = tr_figure(pos[n])
+        xa, ya = tr_axes((xf, yf))
+        a = plt.axes([xa - icon_center, ya - icon_center, icon_size, icon_size])
+        a.imshow(nxG.nodes[n]["image"])
+        a.axis("off")
     fig = plt.gcf()
     img = fig2img(fig)
     img.save(diagram)
