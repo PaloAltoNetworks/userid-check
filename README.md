@@ -105,6 +105,8 @@ This will display usage examples and different argument options available for th
 
 '-c' argument will create csv files at completion.
 
+'-n' argument will add a Relational Diagram to the HTML file.  You can specify a PNG filename of your choice if desired.
+
 ### These arguments are optional and not required.
 
 ## Step 4
