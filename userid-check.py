@@ -530,9 +530,6 @@ def create_diagram(my_list):
         nxG.add_node(x[2]+'\n'+x[3]+'\n\n\n'+x[4]+'\n'+x[5], image=images["device"])
         nxG.add_edge(x[1]+" Agent\n\n\n"+x[0], x[2]+'\n'+x[3]+'\n\n\n'+x[4]+'\n'+x[5])
 
-    # center_node = x[1]+" Agent\n\n\n"+x[0]
-    # edge_nodes = set(nxG) - {center_node}
-    # pos = nx.circular_layout(nxG.subgraph(edge_nodes))
     pos = nx.circular_layout(nxG)
     fig, ax = plt.subplots()
     nx.draw(nxG, with_labels=True, arrows=True, arrowstyle="-", ax=ax, pos=pos, edge_color='lightgrey', font_weight='bold', width=2, node_size=0, min_source_margin=15, min_target_margin=15,)
