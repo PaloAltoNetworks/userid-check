@@ -1,4 +1,4 @@
-# ![alt text](https://github.com/rlemm-pan/userid-check/blob/main/palo.ico?raw=true) userid-check
+# ![alt text](https://github.com/PaloAltoNetworks.com/userid-check/blob/main/palo.ico?raw=true) userid-check
 This tool empowers you to effortlessly determine the PAN-OS Version and User-ID/Terminal Server Agent Version currently running on your Palo Alto Networks devices and UserID/Terminal Server Agents. The primary objective is to ensure that your devices operate on a PAN-OS and Agent version unaffected by the expiration of certificates on November 18th, 2024.  For further details, please refer to this link below:
 
 ### [Certificate Expiration on November 18, 2024](https://live.paloaltonetworks.com/t5/customer-advisories/update-to-additional-pan-os-certificate-expirations-and-new/ta-p/572158)
@@ -14,7 +14,7 @@ Any text editor will do as long as you save it in basic text format.  If there a
 
 # Logic Flowchart
 
-![alt text](https://github.com/rlemm-pan/userid-check/blob/main/flowchart.png?raw=true)
+![alt text](https://github.com/PaloAltoNetworks.com/userid-check/blob/main/flowchart.png?raw=true)
 
 # Community Supported
 
@@ -33,7 +33,7 @@ This template/script/solution is released "as-is", with no warranty and no suppo
 
 Download the tool from this site by clicking on the Green Button in the Upper Right-Hand corner labeled "Code." Next, click on "Download ZIP." This action will download everything you need to proceed to the following steps.
 
-https://github.com/rlemm-pan/userid-check/blob/main
+https://github.com/PaloAltoNetworks.com/userid-check/blob/main
 
 ## Step 2:
 
@@ -130,10 +130,10 @@ Once the tool finishes running, you'll see results with different colors. Green 
 
 ## Sample output of HTML and relational diagram:
 
-![alt text](https://github.com/rlemm-pan/userid-check/blob/main/example.png?raw=true)
+![alt text](https://github.com/PaloAltoNetworks.com/userid-check/blob/main/example.png?raw=true)
 
 
 Additionally, there's a webpage in the tool you can access in the same folder. The file is called PANOS_Recommend.html. Open this file with your chosen browser, and a page will appear that you can use to check any other PAN-OS Version you may be running. This webpage is designed for PANOS only, not the Agent Versions.  Below is a screenshot of the web page:
 
 
-![alt text](https://github.com/rlemm-pan/userid-check/blob/main/webpage_example.png?raw=true)
+![alt text](https://github.com/PaloAltoNetworks.com/userid-check/blob/main/webpage_example.png?raw=true)
