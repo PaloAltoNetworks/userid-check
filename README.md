@@ -22,7 +22,7 @@ Any text editor will do as long as you save it in basic text format.  If there a
 2.  The tool does make SSL/TLS Calls to the Agents to determine the Certificate Expiration Date.
 3.  The Terminal Server Agent does not report its current version correctly.  This is a known issue.  However, the tool is correctly determining if you are affected by making the SSL/TLS call to the Terminal Server Agent.
 4.  No changes are made to your devices with this tool.  The tool only gathers info using API and SSL calls to the devices listed in your text file and agents discovered on your PANOS Devices.
-5.  If you have affected PANOS devices and Agents, you should consider upgrading your PANOS Devices before upgrading your agents.  If the Agent is upgraded before the PANOS device is upgraded, connectivity will be lost to PANOS Devices running an affected PANOS version.  So, to ensure connectivity is restored after the upgrade process, your order of operation should be to upgrade the PANOS devices, then the Agents last.
+5.  If you have affected PANOS devices and Agents, you should consider upgrading your PANOS Devices before upgrading your agents.  If the Agent is upgraded before the PANOS device is upgraded, connectivity will be lost to PANOS Devices running an affected PANOS version.  So, to ensure connectivity is maintained during and after the upgrade process, the order of operation should be to upgrade the PANOS devices, then the Agents last.
 
 
 ## Step 1:
