@@ -16,6 +16,7 @@ Any text editor will do as long as you save it in basic text format.  If there a
 
 ![alt text](https://github.com/rlemm-pan/userid-check/blob/main/flowchart.png?raw=true)
 
+![alt text](https://github.com/rlemm-pan/userid-check/blob/main/SUPPORT.md?raw=true)
 # Considerations:
 
 1.  Endpoint where the tool is installed should have access/reachability to all IP's in the text file and Agents discovered.
