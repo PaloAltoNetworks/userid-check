@@ -16,7 +16,7 @@ Any text editor will do as long as you save it in basic text format.  If there a
 
 ![alt text](https://github.com/rlemm-pan/userid-check/blob/main/flowchart.png?raw=true)
 
-![alt text](https://github.com/rlemm-pan/userid-check/blob/e41a96b3bc9c854e71e8b7bfe8d65530010208e8/SUPPORT.md)
+(SUPPORT.md)
 
 # Considerations:
 
