@@ -24,6 +24,7 @@ from argparse import RawTextHelpFormatter
 from OpenSSL import SSL
 import socket
 import datetime
+import time
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.cbook import get_sample_data
@@ -342,10 +343,18 @@ def process_list(ip):
 
                         if "Product Version: " in line:
                             agent_version = line.split('Product Version: ')[1].split('\n')[0]
+                            context = SSL.Context(SSL.SSLv23_METHOD)
+                            conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+                            conn.set_connect_state()
+                            conn.settimeout(5)
+                            timeout = 5
+                            if timeout is not None:
+                                start = time.time()
+                            last_remain = timeout
+
                             try:
-                                context = SSL.Context(SSL.SSLv23_METHOD)
-                                conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
                                 conn.connect((userid_agent_ip, int(agent_port)))
+                                conn.setblocking(1)
                                 conn.do_handshake()
                                 cert = conn.get_peer_certificate()
                                 conn.close()
@@ -378,12 +387,33 @@ def process_list(ip):
                                     agent_ip.append(userid_agent_ip)
 
                             except IOError:
+                                userid_agents_present = "Yes"
                                 agent_ip_failed.append(userid_agent_ip)
-                                print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.")
+                                print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
 
                             except SSL.SysCallError:
+                                userid_agents_present = "Yes"
                                 agent_ip_failed.append(userid_agent_ip)
-                                print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.")
+                                print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+
+                            except (OpenSSL.SSL.WantReadError, OpenSSL.SSL.WantWriteError) as exc:
+                                userid_agents_present = "Yes"
+                                agent_ip_failed.append(userid_agent_ip)
+                                print("ReadError")
+                                print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+                                remain = timeout - (time.time() - start)
+                                t_step = last_remain - remain
+                                last_remain = remain
+                                if remain < 0:
+                                    conn.setblocking(1)
+                                    raise TimeoutError
+                                readable, writable, errored = select.select([sock], [], [], remain)
+                                # print("select", (readable, writable, errored))
+                                continue
+
+                if "Cannot get config from agent" in agent_info:
+                    userid_agents_present = "Yes"
+                    print("User-ID Agent configured on Device IP:", ip, "could not be contacted.")
 
                 else:
                     userid_agents_present = "No"
@@ -413,11 +443,18 @@ def process_list(ip):
                                 ts_agent_ip = [ts_agent_ip[:ts_agent_ip.rindex(':')], ts_agent_ip[ts_agent_ip.rindex(':')+1:]][0]
 
                         if "Version" in line:
-                            # ts_agent_version = [line[:line.rindex(':')], line[line.rindex(':')+2:]][1]
+                            context = SSL.Context(SSL.SSLv23_METHOD)
+                            conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+                            conn.set_connect_state()
+                            conn.settimeout(5)
+                            timeout = 5
+                            if timeout is not None:
+                                start = time.time()
+                            last_remain = timeout
+
                             try:
-                                context = SSL.Context(SSL.SSLv23_METHOD)
-                                conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
                                 conn.connect((ts_agent_ip, int(ts_agent_port)))
+                                conn.setblocking(1)
                                 conn.do_handshake()
                                 cert = conn.get_peer_certificate()
                                 conn.close()
@@ -437,12 +474,29 @@ def process_list(ip):
                                     agent_ip.append(ts_agent_ip)
 
                             except IOError:
+                                ts_agents_present = "Yes"
                                 agent_ip_failed.append(ts_agent_ip)
-                                print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.")
+                                print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
 
                             except SSL.SysCallError:
+                                ts_agents_present = "Yes"
                                 agent_ip_failed.append(ts_agent_ip)
-                                print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.")
+                                print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+
+                            except (OpenSSL.SSL.WantReadError, OpenSSL.SSL.WantWriteError) as exc:
+                                ts_agents_present = "Yes"
+                                agent_ip_failed.append(ts_agent_ip)
+                                print("ReadError")
+                                print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+                                remain = timeout - (time.time() - start)
+                                t_step = last_remain - remain
+                                last_remain = remain
+                                if remain < 0:
+                                    conn.setblocking(1)
+                                    raise TimeoutError
+                                readable, writable, errored = select.select([sock], [], [], remain)
+                                # print("select", (readable, writable, errored))
+                                continue
                 else:
                     ts_agents_present = "No"
                     pass
@@ -477,7 +531,7 @@ def process_list(ip):
         pass
 
     except AttributeError:
-        logging.error("No API key was returned.  Insufficient privileges or incorrect credentials given.")
+        logging.error("No API key was returned from Device IP:", ip, "  Insufficient privileges or incorrect credentials given.")
         skip = True
         total_devices.append(ip)
         devices_failed+=1
