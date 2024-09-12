@@ -419,7 +419,6 @@ def process_list(ip):
                     userid_agents_present = "Yes"
                     print("User-ID Agent configured on Device IP:", ip, "could not be contacted.")
 
-
             else:
                 userid_agents_present = "No"
                 pass
@@ -501,6 +500,10 @@ def process_list(ip):
                 else:
                     ts_agents_present = "No"
                     pass
+
+                if "Cannot get config from agent" in agent_info:
+                    userid_agents_present = "Yes"
+                    print("Terminal Server Agent configured on Device IP:", ip, "could not be contacted.")
 
             else:
                 total_devices.append(ip)
