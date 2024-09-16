@@ -738,12 +738,12 @@ console.print(results_table)
 
 if args.w:
     console.save_html(html_file)
-    with open(html_file, 'r') as file:
+    with open(html_file, 'r', encoding='utf-8') as file:
       filedata = file.read()
 
     filedata = filedata.replace('<body>', '<body><center>').replace('</body>', '</body></center>')
 
-    with open(html_file, 'w') as file:
+    with open(html_file, 'w', encoding='utf-8') as file:
       file.write(filedata)
 else:
     pass
