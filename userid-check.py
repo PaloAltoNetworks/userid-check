@@ -42,8 +42,8 @@ print((colored(pyfiglet.figlet_format("Certificate Expiry Tool", font='larry3d',
 e = ""
 
 parser = argparse.ArgumentParser(add_help=True,
-                    formatter_class=RawTextHelpFormatter,
-                    description='Usage Examples: \n\n\tpython3 redist-check.py -x\n\n\tpython3 redist-check.py -x -w\n\n\tpython3 redist-check.py -x -o -w\n\n\tpython3 redist-check.py -c -x -o -w\n\n\tpython3 redist-check.py -x -w yourfile.html\n\n\tpython3 redist-check.py -x -o -w yourfile.html\n\n\tpython3 redist-check.py -c -x -o -w yourfile.html\n\n\tpython3 redist-check.py -c -x -o -w -n\n\n\tpython3 redist-check.py -c -x -o -w yourfile.html -n yourdiagram.png')
+					formatter_class=RawTextHelpFormatter,
+					description='Usage Examples: \n\n\tpython3 redist-check.py -x\n\n\tpython3 redist-check.py -x -w\n\n\tpython3 redist-check.py -x -o -w\n\n\tpython3 redist-check.py -c -x -o -w\n\n\tpython3 redist-check.py -x -w yourfile.html\n\n\tpython3 redist-check.py -x -o -w yourfile.html\n\n\tpython3 redist-check.py -c -x -o -w yourfile.html\n\n\tpython3 redist-check.py -c -x -o -w -n\n\n\tpython3 redist-check.py -c -x -o -w yourfile.html -n yourdiagram.png')
 
 parser.add_argument("-x", action = "store_true", help="Optional - Disable Links Pop-Up")
 
@@ -58,20 +58,20 @@ parser.add_argument("-n", required='-o' in sys.argv, nargs='?', const='diagram.p
 args = parser.parse_args()
 
 if args.x:
-    pass
+	pass
 else:
-    webbrowser.open('https://live.paloaltonetworks.com/t5/customer-advisories/update-to-additional-pan-os-certificate-expirations-and-new/ta-p/572158', new = 2)
+	webbrowser.open('https://live.paloaltonetworks.com/t5/customer-advisories/update-to-additional-pan-os-certificate-expirations-and-new/ta-p/572158', new = 2)
 
 if args.w:
-    html_file = args.w
-    console = Console(record=True)
+	html_file = args.w
+	console = Console(record=True)
 else:
-    console = Console()
+	console = Console()
 
 if args.n:
-    diagram = args.n
+	diagram = args.n
 else:
-    console = Console()
+	console = Console()
 
 supported_panos_versions = ["8.1.21-h3", "8.1.25-h3", "8.1.26", "8.1.26-h1", "9.0.16-h7", "9.0.17-h5", "9.1.11-h5", "9.1.12-h7", "9.1.13-h5", "9.1.14-h8", "9.1.16-h5", "9.1.17", "9.1.19", "10.0.12-h5", "10.0.12-h6", "10.0.8-h11", "10.1.10-h5", "10.1.11-h5", "10.1.12", "10.1.3-h3", "10.1.4-h6", "10.1.5-h4", "10.1.6-h8", "10.1.7-h1", "10.1.8-h7", "10.1.9-h8", "10.1.12", "10.1.13", "10.1.14", "10.1.14-h2", "10.2.0-h2", "10.2.1-h1", "10.2.2-h4", "10.2.3-h12", "10.2.4-h10", "10.2.6-h1", "10.2.7-h3", "10.2.7-h6", "10.2.8", "10.2.8-h3", "10.2.8-h4", "10.2.8-h10", "10.2.8", "10.2.9", "10.2.9-h9", "10.2.10", "10.2.10-h2", "10.2.10-h3", "10.2.11", "11.0.0-h2", "11.0.1-h3", "11.0.2-h3", "11.0.3-h3", "11.0.3-h5", "11.0.3-h10", "11.0.3-h12", "11.0.4", "11.1.0-h2", "11.1.1", "11.1.2", "11.1.2-h1", "11.1.2-h4", "11.1.2-h9", "11.1.3", "11.1.3-h1", "11.1.3-h2", "11.1.3-h4", "11.1.4", "11.1.4-h1", "11.2.0", "11.2.1", "11.2.2-h1"]
 
@@ -149,469 +149,469 @@ panos_devices = 'panos-devices.csv'
 panos_agents = 'panos-agents.csv'
 
 def get_devices():
-    try:
-        if len(sys.argv) == 1:
-            filename = input("Enter filename that contains the list of Panorama and PANOS Device IP Addresses: ")
-            username = input("Login: ")
-            password = getpass()
-            with open(filename) as df:
-               devices = df.read().splitlines()
+	try:
+		if len(sys.argv) == 1:
+			filename = input("Enter filename that contains the list of Panorama and PANOS Device IP Addresses: ")
+			username = input("Login: ")
+			password = getpass()
+			with open(filename) as df:
+			   devices = df.read().splitlines()
 
-            devices = [x.replace(' ', '') for x in devices]
+			devices = [x.replace(' ', '') for x in devices]
 
-            while("" in devices):
-                devices.remove("")
+			while("" in devices):
+				devices.remove("")
 
-        else:
-            filename = input("Enter filename that contains the list of Panorama and PANOS Device IP Addresses: ")
-            username = input("Login: ")
-            password = getpass()
-            malformed_ipaddrs = []
-            with open(filename) as df:
-               devices = df.read().splitlines()
+		else:
+			filename = input("Enter filename that contains the list of Panorama and PANOS Device IP Addresses: ")
+			username = input("Login: ")
+			password = getpass()
+			malformed_ipaddrs = []
+			with open(filename) as df:
+			   devices = df.read().splitlines()
 
-            devices = [x.replace(' ', '') for x in devices]
+			devices = [x.replace(' ', '') for x in devices]
 
-            while("" in devices):
-                devices.remove("")
+			while("" in devices):
+				devices.remove("")
 
-        return devices, username, password, filename
+		return devices, username, password, filename
 
-    except FileNotFoundError:
-        print('File Not Found')
-        k=input("press Enter to exit")
-        raise SystemExit(1)
+	except FileNotFoundError:
+		print('File Not Found')
+		k=input("press Enter to exit")
+		raise SystemExit(1)
 
 def process_list(ip):
-    global reachable_count, agents_checked, devices_failed, agents_failed, agent_ip, agent_ip_failed, total_devices, panos_list, agent_list, not_reachable, agent_diagram_list
-    skip = False
-    sys_info_response = ''
-    api_response = ''
-    api_key = ''
-    userid_agents_present = ''
-    ts_agents_present= ''
-    try:
-        ip = str(ipaddress.ip_address(ip))
-        uri = "/api/?type=keygen&user=" + username + "&password=" + requests.utils.quote(password)
-        full_url = "https://" + ip + uri
-        api_response = requests.post(full_url, verify=False, timeout=15)
-        result_dict = xmltodict.parse(api_response.text)
-        if 'key' in result_dict['response']['result'].keys():
-            api_key = result_dict['response']['result']['key']
-            #logging.debug("API Key: " + api_key)
-            uri1 = "/api/?type=op&cmd=<show><system><info></info></system></show>&key=" + api_key
-            full_url = "https://" + ip + uri1
-            sys_info_response = requests.post(full_url, verify=False)
-            dev_name_version = xmltodict.parse(sys_info_response.text)
-            model = dev_name_version['response']['result']['system']['model']
-            devicename =  dev_name_version['response']['result']['system']['devicename']
-            serial = dev_name_version['response']['result']['system']['serial']
-            family = dev_name_version['response']['result']['system']['family']
-            panos_version = dev_name_version['response']['result']['system']['sw-version']
-            recommended_version = ""
+	global reachable_count, agents_checked, devices_failed, agents_failed, agent_ip, agent_ip_failed, total_devices, panos_list, agent_list, not_reachable, agent_diagram_list
+	skip = False
+	sys_info_response = ''
+	api_response = ''
+	api_key = ''
+	userid_agents_present = ''
+	ts_agents_present= ''
+	try:
+		ip = str(ipaddress.ip_address(ip))
+		uri = "/api/?type=keygen&user=" + username + "&password=" + requests.utils.quote(password)
+		full_url = "https://" + ip + uri
+		api_response = requests.post(full_url, verify=False, timeout=15)
+		result_dict = xmltodict.parse(api_response.text)
+		if 'key' in result_dict['response']['result'].keys():
+			api_key = result_dict['response']['result']['key']
+			#logging.debug("API Key: " + api_key)
+			uri1 = "/api/?type=op&cmd=<show><system><info></info></system></show>&key=" + api_key
+			full_url = "https://" + ip + uri1
+			sys_info_response = requests.post(full_url, verify=False)
+			dev_name_version = xmltodict.parse(sys_info_response.text)
+			model = dev_name_version['response']['result']['system']['model']
+			devicename =  dev_name_version['response']['result']['system']['devicename']
+			serial = dev_name_version['response']['result']['system']['serial']
+			family = dev_name_version['response']['result']['system']['family']
+			panos_version = dev_name_version['response']['result']['system']['sw-version']
+			recommended_version = ""
 
-            if dev_name_version['response']['result']['system']['sw-version'] in supported_panos_versions:
-                supported_version = "Yes"
-            else:
-                supported_version = "No"
+			if dev_name_version['response']['result']['system']['sw-version'] in supported_panos_versions:
+				supported_version = "Yes"
+			else:
+				supported_version = "No"
 
-            if panos_version in unsupported_panos_versions:
-                if panos_version  == "8.1.0" or panos_version == "8.1.1" or panos_version == "8.1.2" or panos_version == "8.1.3" or panos_version == "8.1.4" or panos_version == "8.1.5" or panos_version == "8.1.6" or panos_version == "8.1.6-h2" or panos_version == "8.1.7" or panos_version == "8.1.8" or panos_version == "8.1.8-h5" or panos_version == "8.1.9" or panos_version == "8.1.9-h4" or panos_version == "8.1.10" or panos_version == "8.1.11" or panos_version == "8.1.12" or panos_version == "8.1.12-h3" or panos_version == "8.1.13" or panos_version == "8.1.14" or panos_version == "8.1.14-h2" or panos_version == "8.1.15" or panos_version == "8.1.15-h3" or panos_version == "8.1.16" or panos_version == "8.1.17" or panos_version == "8.1.18" or panos_version == "8.1.19" or panos_version == "8.1.20" or panos_version == "8.1.20-h1" or panos_version == "8.1.21" or panos_version == "8.1.21-h1":
-                	recommended_version = "8.1.21-h3"
+			if panos_version in unsupported_panos_versions:
+				if panos_version  == "8.1.0" or panos_version == "8.1.1" or panos_version == "8.1.2" or panos_version == "8.1.3" or panos_version == "8.1.4" or panos_version == "8.1.5" or panos_version == "8.1.6" or panos_version == "8.1.6-h2" or panos_version == "8.1.7" or panos_version == "8.1.8" or panos_version == "8.1.8-h5" or panos_version == "8.1.9" or panos_version == "8.1.9-h4" or panos_version == "8.1.10" or panos_version == "8.1.11" or panos_version == "8.1.12" or panos_version == "8.1.12-h3" or panos_version == "8.1.13" or panos_version == "8.1.14" or panos_version == "8.1.14-h2" or panos_version == "8.1.15" or panos_version == "8.1.15-h3" or panos_version == "8.1.16" or panos_version == "8.1.17" or panos_version == "8.1.18" or panos_version == "8.1.19" or panos_version == "8.1.20" or panos_version == "8.1.20-h1" or panos_version == "8.1.21" or panos_version == "8.1.21-h1":
+					recommended_version = "8.1.21-h3"
 
-                if panos_version == "8.1.22" or panos_version == "8.1.23" or panos_version == "8.1.23-h1" or panos_version == "8.1.24" or panos_version == "8.1.25-h1":
-                	recommended_version = "8.1.25-h3"
+				if panos_version == "8.1.22" or panos_version == "8.1.23" or panos_version == "8.1.23-h1" or panos_version == "8.1.24" or panos_version == "8.1.25-h1":
+					recommended_version = "8.1.25-h3"
 
-                if panos_version  == "9.0.0" or panos_version == "9.0.1" or panos_version == "9.0.2" or panos_version == "9.0.2-h4" or panos_version == "9.0.3" or panos_version == "9.0.3-h2" or panos_version == "9.0.3-h3" or panos_version == "9.0.4" or panos_version == "9.0.5" or panos_version == "9.0.5-h3" or panos_version == "9.0.6" or panos_version == "9.0.7" or panos_version == "9.0.8" or panos_version == "9.0.9" or panos_version == "9.0.9-h1" or panos_version == "9.0.10" or panos_version == "9.0.11" or panos_version == "9.0.12" or panos_version == "9.0.13" or panos_version == "9.0.14" or panos_version == "9.0.14-h3" or panos_version == "9.0.14-h4" or panos_version == "9.0.15" or panos_version == "9.0.16" or panos_version == "9.0.16-h2" or panos_version == "9.0.16-h3" or panos_version == "9.0.16-h5":
-                	recommended_version = "9.0.16-h7"
-
-                if panos_version == "9.0.17-h4":
-                	recommended_version = "9.0.17-h5"
-
-                if panos_version  == "9.1.0" or panos_version == "9.1.1" or panos_version == "9.1.2" or panos_version == "9.1.2-h1" or panos_version == "9.1.3" or panos_version == "9.1.3-h1" or panos_version == "9.1.4" or panos_version == "9.1.5" or panos_version == "9.1.6" or panos_version == "9.1.7" or panos_version == "9.1.8" or panos_version == "9.1.9" or panos_version == "9.1.10" or panos_version == "9.1.11" or panos_version == "9.1.11-h2" or panos_version == "9.1.11-h3" or panos_version == "9.1.11-h4":
-                	recommended_version = "9.1.11-h5"
-
-                if panos_version == "9.1.12" or panos_version == "9.1.12-h3" or panos_version == "9.1.12-h6":
-                	recommended_version = "9.1.12-h7"
-
-                if panos_version == "9.1.13" or panos_version == "9.1.13-h1" or panos_version == "9.1.13-h3" or panos_version == "9.1.13-h4":
-                	recommended_version = "9.1.13-h5"
-
-                if panos_version == "9.1.14" or panos_version == "9.1.14-h1" or panos_version == "9.1.14-h4" or panos_version == "9.1.14-h7":
-                	recommended_version = "9.1.14-h8"
-
-                if panos_version == "9.1.15" or panos_version == "9.1.15-h1" or panos_version == "9.1.16" or panos_version == "9.1.16-h3":
-                	recommended_version = "9.1.16-h5"
-
-                if panos_version  == "10.0.0" or panos_version == "10.0.1" or panos_version == "10.0.2" or panos_version == "10.0.3" or panos_version == "10.0.4" or panos_version == "10.0.5" or panos_version == "10.0.6" or panos_version == "10.0.7" or panos_version == "10.0.8" or panos_version == "10.0.8-h10" or panos_version == "10.0.8-h4" or panos_version == "10.0.8-h8":
-                	recommended_version = "10.0.8-h11"
-
-                if panos_version  == panos_version == "10.0.9" or panos_version == "10.0.10" or panos_version == "10.0.10-h1" or panos_version == "10.0.11" or panos_version == "10.0.11-h1" or panos_version == "10.0.11-h3":
-                	recommended_version = "10.0.11-h4"
-
-                if panos_version  == "10.0.12" or panos_version == "10.0.12-h3":
-                	recommended_version = "10.0.12-h5"
-
-                if panos_version  == "10.1.0" or panos_version == "10.1.1" or panos_version == "10.1.2" or panos_version == "10.1.3" or panos_version == "10.1.3-h2":
-                	recommended_version = "10.1.3-h3"
-
-                if panos_version  == "10.1.4" or panos_version == "10.1.4-h4":
-                	recommended_version = "10.1.4-h6"
-
-                if panos_version  == panos_version == "10.1.5" or panos_version == "10.1.5-h1" or panos_version == "10.1.5-h2" or panos_version == "10.1.5-h3":
-                	recommended_version = "10.1.5-h4"
-
-                if panos_version  == "10.1.6" or panos_version == "10.1.6-h3" or panos_version == "10.1.6-h6" or panos_version == "10.1.6-h7":
-                	recommended_version = "10.1.6-h8"
-
-                if panos_version  == "10.1.7":
-                	recommended_version = "10.1.7-h1"
-
-                if panos_version  == "10.1.8" or panos_version == "10.1.8-h2" or panos_version == "10.1.8-h6":
-                	recommended_version = "10.1.8-h7"
-
-                if panos_version  == "10.1.9" or panos_version == "10.1.9-h1" or panos_version == "10.1.9-h3":
-                	recommended_version = "10.1.9-h8"
-
-                if panos_version  == "10.1.10" or panos_version == "10.1.10-h1" or panos_version == "10.1.10-h2":
-                	recommended_version = "10.1.10-h5"
-
-                if panos_version  == "10.1.11" or panos_version == "10.1.11-h1" or panos_version == "10.1.11-h4":
-                	recommended_version = "10.1.11-h5"
-
-                if panos_version  == "10.2.0" or panos_version == "10.2.0-h1":
-                	recommended_version = "10.2.0-h2"
-
-                if panos_version  == "10.2.1":
-                	recommended_version = "10.2.1-h1"
-
-                if panos_version  == "10.2.2" or panos_version == "10.2.2-h2":
-                	recommended_version = "10.2.2-h4"
-
-                if panos_version  == "10.2.3" or panos_version == "10.2.3-h2" or panos_version == "10.2.3-h4" or panos_version == "10.2.3-h9" or panos_version == "10.2.3-h11":
-                	recommended_version = "10.2.3-h12"
-
-                if panos_version  == "10.2.4" or panos_version == "10.2.4-h2" or panos_version == "10.2.4-h3" or panos_version == "10.2.4-h4":
-                	recommended_version = "10.2.4-h10"
-
-                if panos_version  == "10.2.5" or panos_version == "10.2.6":
-                	recommended_version = "10.2.6-h1"
-
-                if panos_version  == "10.2.7":
-                	recommended_version = "10.2.7-h3"
-
-                if panos_version  == "11.0.0" or panos_version == "11.0.0-h1":
-                	recommended_version = "11.0.0-h2"
-
-                if panos_version  == "11.0.1" or panos_version == "11.0.1-h2":
-                	recommended_version = "11.0.1-h3"
-
-                if panos_version  == "11.0.2-h1" or panos_version == "11.0.2-h2":
-                	recommended_version = "11.0.2-h3"
-
-                if panos_version  == "11.0.3":
-                	recommended_version = "11.0.3-h3"
-
-                if panos_version  == "11.1.0":
-                	recommended_version = "11.1.0-h2"
-            else:
-                recommended_version = "Supported PANOS Version"
-
-            uri6 = "/api/?type=op&cmd=<show><user><user-id-agent><config><all/></config></user-id-agent></user></show>&key=" + api_key
-            full_url = "https://" + ip + uri6
-            user_id_config_response = requests.post(full_url, verify=False)
-            user_id_agents = xmltodict.parse(user_id_config_response.text)
-            if 'result' in user_id_agents['response']:
-                agent_info = user_id_agents['response']['result']
-                if "Host: " in agent_info:
-                    userid_agents_present = "Yes"
-                    agent_type = 'User-ID'
-                    userid_agent_ip = ''
-                    agent_port = ''
-                    agent_os = ''
-                    agent_version = ''
-                    agent_upgrade = ''
-                    for line in agent_info.splitlines():
-                        if "Host:" in line:
-                            userid_agent_ip = line.split('Host: ')[1].split('(')[0]
-                            agent_port = line.split('):')[1].split('\n')[0]
-                            if ":" in userid_agent_ip:
-                                userid_agent_ip = [userid_agent_ip[:userid_agent_ip.rindex(':')], userid_agent_ip[userid_agent_ip.rindex(':')+1:]][0]
-
-                        if "OS: " in line:
-                            agent_os = line.split('OS: ')[1].split('\n')[0]
-
-                        if "Product Version: " in line:
-                            agent_version = line.split('Product Version: ')[1].split('\n')[0]
-                            context = SSL.Context(SSL.SSLv23_METHOD)
-                            conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
-                            conn.set_connect_state()
-                            conn.settimeout(5)
-                            timeout = 5
-                            if timeout is not None:
-                                start = time.time()
-                            last_remain = timeout
-
-                            try:
-                                conn.connect((userid_agent_ip, int(agent_port)))
-                                conn.setblocking(1)
-                                conn.do_handshake()
-                                cert = conn.get_peer_certificate()
-                                conn.close()
-                                date_format = '%Y-%m-%d %H:%M:%S'
-                                expiration_date = datetime.datetime.strptime(cert.get_notAfter().decode("ascii"), "%Y%m%d%H%M%SZ")
-                                if datetime.datetime.strptime(str(expiration_date), date_format) <= datetime.datetime(2024, 11, 18, 18, 50, 33):
-                                    check_version = float(".".join(agent_version.split(".")[:2]))
-                                    if check_version == 9.0:
-                                        agent_upgrade = "9.0.6-101"
-                                    if check_version == 9.1:
-                                        agent_upgrade = "9.1.5-108"
-                                    if check_version == 10.0:
-                                        agent_upgrade = "10.0.7-104"
-                                    if check_version == 10.1:
-                                        agent_upgrade = "10.1.2-104"
-                                    if check_version == 10.2:
-                                        agent_upgrade = "10.2.3-103"
-                                    if check_version == 11.0:
-                                        agent_upgrade = "11.0.1-104"
-
-                                    device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
-                                    agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
-                                    agent_ip.append(userid_agent_ip)
-                                    agent_diagram_list.append([userid_agent_ip, agent_type, model, devicename, serial, ip])
-
-                                else:
-                                    agent_upgrade = "Supported Agent Version"
-                                    device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
-                                    agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
-                                    agent_ip.append(userid_agent_ip)
-
-                            except IOError:
-                                userid_agents_present = "Yes"
-                                agent_ip_failed.append(userid_agent_ip)
-                                print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-
-                            except SSL.SysCallError:
-                                userid_agents_present = "Yes"
-                                agent_ip_failed.append(userid_agent_ip)
-                                print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-
-                            except (OpenSSL.SSL.WantReadError, OpenSSL.SSL.WantWriteError) as exc:
-                                userid_agents_present = "Yes"
-                                agent_ip_failed.append(userid_agent_ip)
-                                print("ReadError")
-                                print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-                                remain = timeout - (time.time() - start)
-                                t_step = last_remain - remain
-                                last_remain = remain
-                                if remain < 0:
-                                    conn.setblocking(1)
-                                    raise TimeoutError
-                                readable, writable, errored = select.select([sock], [], [], remain)
-                                # print("select", (readable, writable, errored))
-                                continue
-
-                else:
-                    userid_agents_present = "No"
-                    pass
-
-                if "Cannot get config from agent" in agent_info:
-                    userid_agents_present = "Yes"
-                    print("User-ID Agent configured on Device IP:", ip, "could not be contacted.")
-
-            else:
-                userid_agents_present = "No"
-                pass
-
-            uri7 = "/api/?type=op&cmd=<show><user><ts-agent><state>all</state></ts-agent></user></show>&key=" + api_key
-            full_url = "https://" + ip + uri7
-            ts_config_response = requests.post(full_url, verify=False)
-            ts_agents = xmltodict.parse(ts_config_response.text)
-            if 'result' in ts_agents['response']:
-                ts_agent_info = ts_agents['response']['result']
-                if "Host: " in ts_agent_info:
-                    ts_agents_present = "Yes"
-                    agent_type = 'Terminal Server'
-                    ts_agent_ip = ''
-                    ts_agent_port = ''
-                    ts_agent_upgrade = ''
-                    for line in ts_agent_info.splitlines():
-                        if "Host:" in line:
-                            ts_agent_ip = line.split('Host: ')[1].split('(')[0]
-                            ts_agent_port = [line[:line.rindex(':')], line[line.rindex(':')+1:]][1]
-                            if ":" in ts_agent_ip:
-                                ts_agent_ip = [ts_agent_ip[:ts_agent_ip.rindex(':')], ts_agent_ip[ts_agent_ip.rindex(':')+1:]][0]
-
-                        if "Version" in line:
-                            context = SSL.Context(SSL.SSLv23_METHOD)
-                            conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
-                            conn.set_connect_state()
-                            conn.settimeout(5)
-                            timeout = 5
-                            if timeout is not None:
-                                start = time.time()
-                            last_remain = timeout
-
-                            try:
-                                conn.connect((ts_agent_ip, int(ts_agent_port)))
-                                conn.setblocking(1)
-                                conn.do_handshake()
-                                cert = conn.get_peer_certificate()
-                                conn.close()
-                                date_format = '%Y-%m-%d %H:%M:%S'
-                                expiration_date = datetime.datetime.strptime(cert.get_notAfter().decode("ascii"), "%Y%m%d%H%M%SZ")
-                                if datetime.datetime.strptime(str(expiration_date), date_format) <= datetime.datetime(2024, 11, 18, 19, 20, 6):
-                                    agent_upgrade = 'refer to advisory to get your recommended version'
-                                    device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, ts_agent_ip, agent_type, 'N/A', agent_upgrade)
-                                    agent_list.append([ts_agent_ip, agent_type, 'N/A', agent_upgrade])
-                                    agent_ip.append(ts_agent_ip)
-                                    agent_diagram_list.append([ts_agent_ip, agent_type, model, devicename, serial, ip])
-
-                                else:
-                                    agent_upgrade = "Supported Agent Version"
-                                    device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, ts_agent_ip, agent_type, 'N/A', agent_upgrade)
-                                    agent_list.append([ts_agent_ip, agent_type, 'N/A', agent_upgrade])
-                                    agent_ip.append(ts_agent_ip)
-
-                            except IOError:
-                                ts_agents_present = "Yes"
-                                agent_ip_failed.append(ts_agent_ip)
-                                print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-
-                            except SSL.SysCallError:
-                                ts_agents_present = "Yes"
-                                agent_ip_failed.append(ts_agent_ip)
-                                print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-
-                            except (OpenSSL.SSL.WantReadError, OpenSSL.SSL.WantWriteError) as exc:
-                                ts_agents_present = "Yes"
-                                agent_ip_failed.append(ts_agent_ip)
-                                print("ReadError")
-                                print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-                                remain = timeout - (time.time() - start)
-                                t_step = last_remain - remain
-                                last_remain = remain
-                                if remain < 0:
-                                    conn.setblocking(1)
-                                    raise TimeoutError
-                                readable, writable, errored = select.select([sock], [], [], remain)
-                                # print("select", (readable, writable, errored))
-                                continue
-                else:
-                    ts_agents_present = "No"
-                    pass
-
-                if "Cannot get config from agent" in agent_info:
-                    userid_agents_present = "Yes"
-                    print("Terminal Server Agent configured on Device IP:", ip, "could not be contacted.")
-
-            else:
-                total_devices.append(ip)
-                ts_agents_present = "No"
-                pass
-
-            print("Completed Checking Device", devicename, "with IP Address:", ip)
-            panos_list.append([devicename, serial, ip, model, panos_version, recommended_version, userid_agents_present, ts_agents_present])
-            total_devices.append(ip)
-
-        else:
-            print("Skipped", ip, "No API Key Returned.  Check Credentials/user privileges" )
-            total_devices.append(ip)
-            devices_failed+=1
-
-    except IOError:
-        logging.error("IP Address: "+ip+" connection was refused. Please check connectivity.")
-        skip = True
-        total_devices.append(ip)
-        not_reachable+=1
-        pass
-
-    except KeyError:
-        logging.error(ip+" Incorrect Username/Password, Command not supported on this platform or API Access is not allowed on this user account.")
-        skip = True
-        total_devices.append(ip)
-        not_reachable+=1
-        devices_failed+=1
-        pass
-
-    except AttributeError:
-        logging.error("No API key was returned from Device IP:", ip, "  Insufficient privileges or incorrect credentials given.")
-        skip = True
-        total_devices.append(ip)
-        devices_failed+=1
-        pass
-
-    except ValueError:
-        print('Malformed IP Address or hostname -', ip, 'in filename called:', filename)
-        skip = True
-        total_devices.append(ip)
-        devices_failed+=1
-        pass
-
-    except TypeError:
-        print('Received invalid response. Agent not responding. Skipping IP', ip)
-        skip = True
-        userid_agents_present = 'No'
-        ts_agents_present = 'No'
-        panos_list.append([devicename, serial, ip, model, panos_version, recommended_version, userid_agents_present, ts_agents_present])
-        total_devices.append(ip)
-        pass
-
-    except e:
-        print(e)
-        # print(ip, "Had an Issue.  Please Investigate.")
-        skip = True
-        total_devices.append(ip)
-        devices_failed+=1
-        pass
-
-    if skip == True:
-        skip = False
-        total_devices.append(ip)
-        pass
+				if panos_version  == "9.0.0" or panos_version == "9.0.1" or panos_version == "9.0.2" or panos_version == "9.0.2-h4" or panos_version == "9.0.3" or panos_version == "9.0.3-h2" or panos_version == "9.0.3-h3" or panos_version == "9.0.4" or panos_version == "9.0.5" or panos_version == "9.0.5-h3" or panos_version == "9.0.6" or panos_version == "9.0.7" or panos_version == "9.0.8" or panos_version == "9.0.9" or panos_version == "9.0.9-h1" or panos_version == "9.0.10" or panos_version == "9.0.11" or panos_version == "9.0.12" or panos_version == "9.0.13" or panos_version == "9.0.14" or panos_version == "9.0.14-h3" or panos_version == "9.0.14-h4" or panos_version == "9.0.15" or panos_version == "9.0.16" or panos_version == "9.0.16-h2" or panos_version == "9.0.16-h3" or panos_version == "9.0.16-h5":
+					recommended_version = "9.0.16-h7"
+
+				if panos_version == "9.0.17-h4":
+					recommended_version = "9.0.17-h5"
+
+				if panos_version  == "9.1.0" or panos_version == "9.1.1" or panos_version == "9.1.2" or panos_version == "9.1.2-h1" or panos_version == "9.1.3" or panos_version == "9.1.3-h1" or panos_version == "9.1.4" or panos_version == "9.1.5" or panos_version == "9.1.6" or panos_version == "9.1.7" or panos_version == "9.1.8" or panos_version == "9.1.9" or panos_version == "9.1.10" or panos_version == "9.1.11" or panos_version == "9.1.11-h2" or panos_version == "9.1.11-h3" or panos_version == "9.1.11-h4":
+					recommended_version = "9.1.11-h5"
+
+				if panos_version == "9.1.12" or panos_version == "9.1.12-h3" or panos_version == "9.1.12-h6":
+					recommended_version = "9.1.12-h7"
+
+				if panos_version == "9.1.13" or panos_version == "9.1.13-h1" or panos_version == "9.1.13-h3" or panos_version == "9.1.13-h4":
+					recommended_version = "9.1.13-h5"
+
+				if panos_version == "9.1.14" or panos_version == "9.1.14-h1" or panos_version == "9.1.14-h4" or panos_version == "9.1.14-h7":
+					recommended_version = "9.1.14-h8"
+
+				if panos_version == "9.1.15" or panos_version == "9.1.15-h1" or panos_version == "9.1.16" or panos_version == "9.1.16-h3":
+					recommended_version = "9.1.16-h5"
+
+				if panos_version  == "10.0.0" or panos_version == "10.0.1" or panos_version == "10.0.2" or panos_version == "10.0.3" or panos_version == "10.0.4" or panos_version == "10.0.5" or panos_version == "10.0.6" or panos_version == "10.0.7" or panos_version == "10.0.8" or panos_version == "10.0.8-h10" or panos_version == "10.0.8-h4" or panos_version == "10.0.8-h8":
+					recommended_version = "10.0.8-h11"
+
+				if panos_version  == panos_version == "10.0.9" or panos_version == "10.0.10" or panos_version == "10.0.10-h1" or panos_version == "10.0.11" or panos_version == "10.0.11-h1" or panos_version == "10.0.11-h3":
+					recommended_version = "10.0.11-h4"
+
+				if panos_version  == "10.0.12" or panos_version == "10.0.12-h3":
+					recommended_version = "10.0.12-h5"
+
+				if panos_version  == "10.1.0" or panos_version == "10.1.1" or panos_version == "10.1.2" or panos_version == "10.1.3" or panos_version == "10.1.3-h2":
+					recommended_version = "10.1.3-h3"
+
+				if panos_version  == "10.1.4" or panos_version == "10.1.4-h4":
+					recommended_version = "10.1.4-h6"
+
+				if panos_version  == panos_version == "10.1.5" or panos_version == "10.1.5-h1" or panos_version == "10.1.5-h2" or panos_version == "10.1.5-h3":
+					recommended_version = "10.1.5-h4"
+
+				if panos_version  == "10.1.6" or panos_version == "10.1.6-h3" or panos_version == "10.1.6-h6" or panos_version == "10.1.6-h7":
+					recommended_version = "10.1.6-h8"
+
+				if panos_version  == "10.1.7":
+					recommended_version = "10.1.7-h1"
+
+				if panos_version  == "10.1.8" or panos_version == "10.1.8-h2" or panos_version == "10.1.8-h6":
+					recommended_version = "10.1.8-h7"
+
+				if panos_version  == "10.1.9" or panos_version == "10.1.9-h1" or panos_version == "10.1.9-h3":
+					recommended_version = "10.1.9-h8"
+
+				if panos_version  == "10.1.10" or panos_version == "10.1.10-h1" or panos_version == "10.1.10-h2":
+					recommended_version = "10.1.10-h5"
+
+				if panos_version  == "10.1.11" or panos_version == "10.1.11-h1" or panos_version == "10.1.11-h4":
+					recommended_version = "10.1.11-h5"
+
+				if panos_version  == "10.2.0" or panos_version == "10.2.0-h1":
+					recommended_version = "10.2.0-h2"
+
+				if panos_version  == "10.2.1":
+					recommended_version = "10.2.1-h1"
+
+				if panos_version  == "10.2.2" or panos_version == "10.2.2-h2":
+					recommended_version = "10.2.2-h4"
+
+				if panos_version  == "10.2.3" or panos_version == "10.2.3-h2" or panos_version == "10.2.3-h4" or panos_version == "10.2.3-h9" or panos_version == "10.2.3-h11":
+					recommended_version = "10.2.3-h12"
+
+				if panos_version  == "10.2.4" or panos_version == "10.2.4-h2" or panos_version == "10.2.4-h3" or panos_version == "10.2.4-h4":
+					recommended_version = "10.2.4-h10"
+
+				if panos_version  == "10.2.5" or panos_version == "10.2.6":
+					recommended_version = "10.2.6-h1"
+
+				if panos_version  == "10.2.7":
+					recommended_version = "10.2.7-h3"
+
+				if panos_version  == "11.0.0" or panos_version == "11.0.0-h1":
+					recommended_version = "11.0.0-h2"
+
+				if panos_version  == "11.0.1" or panos_version == "11.0.1-h2":
+					recommended_version = "11.0.1-h3"
+
+				if panos_version  == "11.0.2-h1" or panos_version == "11.0.2-h2":
+					recommended_version = "11.0.2-h3"
+
+				if panos_version  == "11.0.3":
+					recommended_version = "11.0.3-h3"
+
+				if panos_version  == "11.1.0":
+					recommended_version = "11.1.0-h2"
+			else:
+				recommended_version = "Supported PANOS Version"
+
+			uri6 = "/api/?type=op&cmd=<show><user><user-id-agent><config><all/></config></user-id-agent></user></show>&key=" + api_key
+			full_url = "https://" + ip + uri6
+			user_id_config_response = requests.post(full_url, verify=False)
+			user_id_agents = xmltodict.parse(user_id_config_response.text)
+			if 'result' in user_id_agents['response']:
+				agent_info = user_id_agents['response']['result']
+				if "Host: " in agent_info:
+					userid_agents_present = "Yes"
+					agent_type = 'User-ID'
+					userid_agent_ip = ''
+					agent_port = ''
+					agent_os = ''
+					agent_version = ''
+					agent_upgrade = ''
+					for line in agent_info.splitlines():
+						if "Host:" in line:
+							userid_agent_ip = line.split('Host: ')[1].split('(')[0]
+							agent_port = line.split('):')[1].split('\n')[0]
+							if ":" in userid_agent_ip:
+								userid_agent_ip = [userid_agent_ip[:userid_agent_ip.rindex(':')], userid_agent_ip[userid_agent_ip.rindex(':')+1:]][0]
+
+						if "OS: " in line:
+							agent_os = line.split('OS: ')[1].split('\n')[0]
+
+						if "Product Version: " in line:
+							agent_version = line.split('Product Version: ')[1].split('\n')[0]
+							context = SSL.Context(SSL.SSLv23_METHOD)
+							conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+							conn.set_connect_state()
+							conn.settimeout(5)
+							timeout = 5
+							if timeout is not None:
+								start = time.time()
+							last_remain = timeout
+
+							try:
+								conn.connect((userid_agent_ip, int(agent_port)))
+								conn.setblocking(1)
+								conn.do_handshake()
+								cert = conn.get_peer_certificate()
+								conn.close()
+								date_format = '%Y-%m-%d %H:%M:%S'
+								expiration_date = datetime.datetime.strptime(cert.get_notAfter().decode("ascii"), "%Y%m%d%H%M%SZ")
+								if datetime.datetime.strptime(str(expiration_date), date_format) <= datetime.datetime(2024, 11, 18, 18, 50, 33):
+									check_version = float(".".join(agent_version.split(".")[:2]))
+									if check_version == 9.0:
+										agent_upgrade = "9.0.6-101"
+									if check_version == 9.1:
+										agent_upgrade = "9.1.5-108"
+									if check_version == 10.0:
+										agent_upgrade = "10.0.7-104"
+									if check_version == 10.1:
+										agent_upgrade = "10.1.2-104"
+									if check_version == 10.2:
+										agent_upgrade = "10.2.3-103"
+									if check_version == 11.0:
+										agent_upgrade = "11.0.1-104"
+
+									device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
+									agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
+									agent_ip.append(userid_agent_ip)
+									agent_diagram_list.append([userid_agent_ip, agent_type, model, devicename, serial, ip])
+
+								else:
+									agent_upgrade = "Supported Agent Version"
+									device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
+									agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
+									agent_ip.append(userid_agent_ip)
+
+							except IOError:
+								userid_agents_present = "Yes"
+								agent_ip_failed.append(userid_agent_ip)
+								print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+
+							except SSL.SysCallError:
+								userid_agents_present = "Yes"
+								agent_ip_failed.append(userid_agent_ip)
+								print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+
+							except (OpenSSL.SSL.WantReadError, OpenSSL.SSL.WantWriteError) as exc:
+								userid_agents_present = "Yes"
+								agent_ip_failed.append(userid_agent_ip)
+								print("ReadError")
+								print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+								remain = timeout - (time.time() - start)
+								t_step = last_remain - remain
+								last_remain = remain
+								if remain < 0:
+									conn.setblocking(1)
+									raise TimeoutError
+								readable, writable, errored = select.select([sock], [], [], remain)
+								# print("select", (readable, writable, errored))
+								continue
+
+				else:
+					userid_agents_present = "No"
+					pass
+
+				if "Cannot get config from agent" in agent_info:
+					userid_agents_present = "Yes"
+					print("User-ID Agent configured on Device IP:", ip, "could not be contacted.")
+
+			else:
+				userid_agents_present = "No"
+				pass
+
+			uri7 = "/api/?type=op&cmd=<show><user><ts-agent><state>all</state></ts-agent></user></show>&key=" + api_key
+			full_url = "https://" + ip + uri7
+			ts_config_response = requests.post(full_url, verify=False)
+			ts_agents = xmltodict.parse(ts_config_response.text)
+			if 'result' in ts_agents['response']:
+				ts_agent_info = ts_agents['response']['result']
+				if "Host: " in ts_agent_info:
+					ts_agents_present = "Yes"
+					agent_type = 'Terminal Server'
+					ts_agent_ip = ''
+					ts_agent_port = ''
+					ts_agent_upgrade = ''
+					for line in ts_agent_info.splitlines():
+						if "Host:" in line:
+							ts_agent_ip = line.split('Host: ')[1].split('(')[0]
+							ts_agent_port = [line[:line.rindex(':')], line[line.rindex(':')+1:]][1]
+							if ":" in ts_agent_ip:
+								ts_agent_ip = [ts_agent_ip[:ts_agent_ip.rindex(':')], ts_agent_ip[ts_agent_ip.rindex(':')+1:]][0]
+
+						if "Version" in line:
+							context = SSL.Context(SSL.SSLv23_METHOD)
+							conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+							conn.set_connect_state()
+							conn.settimeout(5)
+							timeout = 5
+							if timeout is not None:
+								start = time.time()
+							last_remain = timeout
+
+							try:
+								conn.connect((ts_agent_ip, int(ts_agent_port)))
+								conn.setblocking(1)
+								conn.do_handshake()
+								cert = conn.get_peer_certificate()
+								conn.close()
+								date_format = '%Y-%m-%d %H:%M:%S'
+								expiration_date = datetime.datetime.strptime(cert.get_notAfter().decode("ascii"), "%Y%m%d%H%M%SZ")
+								if datetime.datetime.strptime(str(expiration_date), date_format) <= datetime.datetime(2024, 11, 18, 19, 20, 6):
+									agent_upgrade = 'refer to advisory to get your recommended version'
+									device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, ts_agent_ip, agent_type, 'N/A', agent_upgrade)
+									agent_list.append([ts_agent_ip, agent_type, 'N/A', agent_upgrade])
+									agent_ip.append(ts_agent_ip)
+									agent_diagram_list.append([ts_agent_ip, agent_type, model, devicename, serial, ip])
+
+								else:
+									agent_upgrade = "Supported Agent Version"
+									device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, ts_agent_ip, agent_type, 'N/A', agent_upgrade)
+									agent_list.append([ts_agent_ip, agent_type, 'N/A', agent_upgrade])
+									agent_ip.append(ts_agent_ip)
+
+							except IOError:
+								ts_agents_present = "Yes"
+								agent_ip_failed.append(ts_agent_ip)
+								print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+
+							except SSL.SysCallError:
+								ts_agents_present = "Yes"
+								agent_ip_failed.append(ts_agent_ip)
+								print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+
+							except (OpenSSL.SSL.WantReadError, OpenSSL.SSL.WantWriteError) as exc:
+								ts_agents_present = "Yes"
+								agent_ip_failed.append(ts_agent_ip)
+								print("ReadError")
+								print("Terminal Server Agent with IP Address:", ts_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+								remain = timeout - (time.time() - start)
+								t_step = last_remain - remain
+								last_remain = remain
+								if remain < 0:
+									conn.setblocking(1)
+									raise TimeoutError
+								readable, writable, errored = select.select([sock], [], [], remain)
+								# print("select", (readable, writable, errored))
+								continue
+				else:
+					ts_agents_present = "No"
+					pass
+
+				if "Cannot get config from agent" in agent_info:
+					userid_agents_present = "Yes"
+					print("Terminal Server Agent configured on Device IP:", ip, "could not be contacted.")
+
+			else:
+				total_devices.append(ip)
+				ts_agents_present = "No"
+				pass
+
+			print("Completed Checking Device", devicename, "with IP Address:", ip)
+			panos_list.append([devicename, serial, ip, model, panos_version, recommended_version, userid_agents_present, ts_agents_present])
+			total_devices.append(ip)
+
+		else:
+			print("Skipped", ip, "No API Key Returned.  Check Credentials/user privileges" )
+			total_devices.append(ip)
+			devices_failed+=1
+
+	except IOError:
+		logging.error("IP Address: "+ip+" connection was refused. Please check connectivity.")
+		skip = True
+		total_devices.append(ip)
+		not_reachable+=1
+		pass
+
+	except KeyError:
+		logging.error(ip+" Incorrect Username/Password, Command not supported on this platform or API Access is not allowed on this user account.")
+		skip = True
+		total_devices.append(ip)
+		not_reachable+=1
+		devices_failed+=1
+		pass
+
+	except AttributeError:
+		logging.error("No API key was returned from Device IP:", ip, "  Insufficient privileges or incorrect credentials given.")
+		skip = True
+		total_devices.append(ip)
+		devices_failed+=1
+		pass
+
+	except ValueError:
+		print('Malformed IP Address or hostname -', ip, 'in filename called:', filename)
+		skip = True
+		total_devices.append(ip)
+		devices_failed+=1
+		pass
+
+	except TypeError:
+		print('Received invalid response. Agent not responding. Skipping IP', ip)
+		skip = True
+		userid_agents_present = 'No'
+		ts_agents_present = 'No'
+		panos_list.append([devicename, serial, ip, model, panos_version, recommended_version, userid_agents_present, ts_agents_present])
+		total_devices.append(ip)
+		pass
+
+	except e:
+		print(e)
+		# print(ip, "Had an Issue.  Please Investigate.")
+		skip = True
+		total_devices.append(ip)
+		devices_failed+=1
+		pass
+
+	if skip == True:
+		skip = False
+		total_devices.append(ip)
+		pass
 
 def fig2img(fig):
-    buf = io.BytesIO()
-    fig.savefig(buf)
-    buf.seek(0)
-    img = Image.open(buf)
-    return img
+	buf = io.BytesIO()
+	fig.savefig(buf)
+	buf.seek(0)
+	img = Image.open(buf)
+	return img
 
 def create_diagram(my_list):
-    global diagram
-    plt.rcParams["figure.figsize"] = (18, 10)
-    icons = {"agent": "agent.png", "device": "palo.png",}
-    images = {k: PIL.Image.open(fname) for k, fname in icons.items()}
-    nxG = nx.Graph()
-    for x in my_list:
-        nxG.add_node(x[1]+" Agent\n\n\n"+x[0], image=images["agent"])
-        nxG.add_node(x[2]+'\n'+x[3]+'\n\n\n'+x[4]+'\n'+x[5], image=images["device"])
-        nxG.add_edge(x[1]+" Agent\n\n\n"+x[0], x[2]+'\n'+x[3]+'\n\n\n'+x[4]+'\n'+x[5])
+	global diagram
+	plt.rcParams["figure.figsize"] = (18, 10)
+	icons = {"agent": "agent.png", "device": "palo.png",}
+	images = {k: PIL.Image.open(fname) for k, fname in icons.items()}
+	nxG = nx.Graph()
+	for x in my_list:
+		nxG.add_node(x[1]+" Agent\n\n\n"+x[0], image=images["agent"])
+		nxG.add_node(x[2]+'\n'+x[3]+'\n\n\n'+x[4]+'\n'+x[5], image=images["device"])
+		nxG.add_edge(x[1]+" Agent\n\n\n"+x[0], x[2]+'\n'+x[3]+'\n\n\n'+x[4]+'\n'+x[5])
 
-    pos = nx.circular_layout(nxG)
-    fig, ax = plt.subplots()
-    nx.draw(nxG, with_labels=True, arrows=True, arrowstyle="-", ax=ax, pos=pos, edge_color='lightgrey', font_weight='bold', width=2, node_size=0, min_source_margin=15, min_target_margin=15,)
-    tr_figure = ax.transData.transform
-    tr_axes = fig.transFigure.inverted().transform
-    icon_size = (ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.0125
-    icon_center = icon_size / 2.0
-    for n in nxG.nodes:
-        xf, yf = tr_figure(pos[n])
-        xa, ya = tr_axes((xf, yf))
-        a = plt.axes([xa - icon_center, ya - icon_center, icon_size, icon_size])
-        a.imshow(nxG.nodes[n]["image"])
-        a.axis("off")
+	pos = nx.circular_layout(nxG)
+	fig, ax = plt.subplots()
+	nx.draw(nxG, with_labels=True, arrows=True, arrowstyle="-", ax=ax, pos=pos, edge_color='lightgrey', font_weight='bold', width=2, node_size=0, min_source_margin=15, min_target_margin=15,)
+	tr_figure = ax.transData.transform
+	tr_axes = fig.transFigure.inverted().transform
+	icon_size = (ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.0125
+	icon_center = icon_size / 2.0
+	for n in nxG.nodes:
+		xf, yf = tr_figure(pos[n])
+		xa, ya = tr_axes((xf, yf))
+		a = plt.axes([xa - icon_center, ya - icon_center, icon_size, icon_size])
+		a.imshow(nxG.nodes[n]["image"])
+		a.axis("off")
 
-    fig = plt.gcf()
-    img = fig2img(fig)
-    img.save(diagram)
+	fig = plt.gcf()
+	img = fig2img(fig)
+	img.save(diagram)
 
 def multi_processing():
-    pool = ThreadPool(processes=os.cpu_count())
-    res = list(pool.apply_async(process_list, args=(ip,)) for ip in devices)
-    pool.close()
-    pool.join()
-    results = [r.get() for r in res]
+	pool = ThreadPool(processes=os.cpu_count())
+	res = list(pool.apply_async(process_list, args=(ip,)) for ip in devices)
+	pool.close()
+	pool.join()
+	results = [r.get() for r in res]
 
 devices, username, password, filename = get_devices()
 multi_processing()
@@ -626,83 +626,83 @@ agent_list.sort()
 agent_list = [agent_list[i] for i in range(len(agent_list)) if i == 0 or agent_list[i] != agent_list[i-1]]
 
 if args.c:
-    panos_fields = ['Device Name', 'Serial Number', 'IP Address', 'Model', 'SW Version', 'Suggested PANOS Version', 'User-ID Agents Present?', 'TS Agents Present?']
-    agent_fields = ['Agent IP', 'Agent Type', 'Agent Version', 'Suggested Agent Version']
+	panos_fields = ['Device Name', 'Serial Number', 'IP Address', 'Model', 'SW Version', 'Suggested PANOS Version', 'User-ID Agents Present?', 'TS Agents Present?']
+	agent_fields = ['Agent IP', 'Agent Type', 'Agent Version', 'Suggested Agent Version']
 
-    with open(panos_devices, 'w') as s:
-        write = csv.writer(s)
-        write.writerow(panos_fields)
-        write.writerows(panos_list)
+	with open(panos_devices, 'w') as s:
+		write = csv.writer(s)
+		write.writerow(panos_fields)
+		write.writerows(panos_list)
 
-        for x in panos_list:
-            if x[5]  == 'Supported PANOS Version':
-                supported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #afff5f")
-            else:
-                if x[6]  == 'No' and x[7] == 'No':
-                    ignore_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
-                    devices_no_agent+=1
-                else:
-                    unsupported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #ffff87")
+		for x in panos_list:
+			if x[5]  == 'Supported PANOS Version':
+				supported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #afff5f")
+			else:
+				if x[6]  == 'No' and x[7] == 'No':
+					ignore_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
+					devices_no_agent+=1
+				else:
+					unsupported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #ffff87")
 
-    with open(panos_agents, 'w') as s:
-        write = csv.writer(s)
-        write.writerow(agent_fields)
-        write.writerows(agent_list)
+	with open(panos_agents, 'w') as s:
+		write = csv.writer(s)
+		write.writerow(agent_fields)
+		write.writerows(agent_list)
 
-        for x in agent_list:
-            if x[3] == "Supported Agent Version":
-                supported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #afff5f")
+		for x in agent_list:
+			if x[3] == "Supported Agent Version":
+				supported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #afff5f")
 
-            else:
-                unsupported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #ffff87")
+			else:
+				unsupported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #ffff87")
 
 else:
-    for x in panos_list:
-        if x[5]  == 'Supported PANOS Version':
-            supported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #afff5f")
-        else:
-            if x[6]  == 'No' and x[7] == 'No':
-                ignore_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
-                devices_no_agent+=1
-            else:
-                unsupported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #ffff87")
+	for x in panos_list:
+		if x[5]  == 'Supported PANOS Version':
+			supported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #afff5f")
+		else:
+			if x[6]  == 'No' and x[7] == 'No':
+				ignore_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7])
+				devices_no_agent+=1
+			else:
+				unsupported_panos_table.add_row(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], style="on #ffff87")
 
-    for x in agent_list:
-        if x[3] == "Supported Agent Version":
-            supported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #afff5f")
+	for x in agent_list:
+		if x[3] == "Supported Agent Version":
+			supported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #afff5f")
 
-        else:
-            unsupported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #ffff87")
+		else:
+			unsupported_agent_table.add_row(x[0], x[1], x[2], x[3], style="on #ffff87")
 
 if supported_panos_table.row_count > 0:
-    console.print(supported_panos_table)
-    print("\n\n")
+	console.print(supported_panos_table)
+	print("\n\n")
 else:
-    pass
+	pass
 
 if unsupported_panos_table.row_count > 0:
-    console.print(unsupported_panos_table)
-    print("\n\n")
+	console.print(unsupported_panos_table)
+	print("\n\n")
 else:
-    pass
+	pass
 
 if ignore_panos_table.row_count > 0:
-    console.print(ignore_panos_table)
-    print("\n\n")
+	console.print(ignore_panos_table)
+	print("\n\n")
 else:
-    pass
+	pass
 
 if supported_agent_table.row_count > 0:
-    console.print(supported_agent_table)
-    print("\n\n")
+	console.print(supported_agent_table)
+	print("\n\n")
 else:
-    pass
+	pass
 
 if unsupported_agent_table.row_count > 0:
-    console.print(unsupported_agent_table)
-    print("\n\n")
+	console.print(unsupported_agent_table)
+	print("\n\n")
 else:
-    pass
+	pass
 
 agent_ip = list(set(agent_ip))
 num_agents_checked = len(agent_ip)
@@ -720,48 +720,48 @@ results_table.add_row("Total Number of PANOS Devices", str(num_total_devices))
 results_table.add_row("Total Number of Reachable Agents", str(num_agents_checked))
 
 if reachable_count > 0:
-    results_table.add_row("Number of PANOS Devices Checked", str(reachable_count))
+	results_table.add_row("Number of PANOS Devices Checked", str(reachable_count))
 
 if devices_no_agent > 0:
-    results_table.add_row("Number of PANOS Devices without Agent", str(devices_no_agent))
+	results_table.add_row("Number of PANOS Devices without Agent", str(devices_no_agent))
 
 if agents_checked > 0:
-    results_table.add_row("Number of Agents Checked", str(num_agents_checked))
+	results_table.add_row("Number of Agents Checked", str(num_agents_checked))
 
 if not_reachable > 0:
-    results_table.add_row("Number of PANOS Devices not reachable", str(not_reachable))
+	results_table.add_row("Number of PANOS Devices not reachable", str(not_reachable))
 
 if agents_failed > 0:
-    results_table.add_row("Number of Agents Not Reachable", str(num_agents_failed))
+	results_table.add_row("Number of Agents Not Reachable", str(num_agents_failed))
 
 console.print(results_table)
 
 if args.w:
-    console.save_html(html_file)
-    with open(html_file, 'r') as file:
-      filedata = file.read()
+	console.save_html(html_file)
+	with open(html_file, 'r') as file:
+	  filedata = file.read()
+	
+	filedata = filedata.replace('<body>', '<body><center>').replace('</body>', '</body></center>')
 
-    filedata = filedata.replace('<body>', '<body><center>').replace('</body>', '</body></center>')
-
-    with open(html_file, 'w') as file:
-      file.write(filedata)
+	with open(html_file, 'w') as file:
+	  file.write(filedata)
 else:
-    pass
+	pass
 
 if args.n:
-    agent_diagram_list.sort()
-    agent_diagram_list = [agent_diagram_list[i] for i in range(len(agent_diagram_list)) if i == 0 or agent_diagram_list[i] != agent_diagram_list[i-1]]
-    create_diagram(agent_diagram_list)
-    with open(html_file, 'a') as file:
-        file.write('<center><p><font size="+6">Relational Diagram</font></p><br><br><img src="'+diagram+'" alt="Relational Diagram"></center>')
-    file.close()
+	agent_diagram_list.sort()
+	agent_diagram_list = [agent_diagram_list[i] for i in range(len(agent_diagram_list)) if i == 0 or agent_diagram_list[i] != agent_diagram_list[i-1]]
+	create_diagram(agent_diagram_list)
+	with open(html_file, 'a') as file:
+		file.write('<center><p><font size="+6">Relational Diagram</font></p><br><br><img src="'+diagram+'" alt="Relational Diagram"></center>')
+	file.close()
 else:
-    pass
+	pass
 
 if args.o:
-    webbrowser.open('file://'+os.path.dirname(os.path.realpath(__file__))+'/'+html_file, new = 2)
+	webbrowser.open('file://'+os.path.dirname(os.path.realpath(__file__))+'/'+html_file, new = 2)
 else:
-    pass
+	pass
 
 print("\n\n")
 k=input("press Enter to exit")
