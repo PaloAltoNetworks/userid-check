@@ -501,7 +501,7 @@ def process_list(ip):
 					ts_agents_present = "No"
 					pass
 
-				if "Cannot get config from agent" in agent_info:
+				if "Cannot get config from agent" in ts_agent_info:
 					userid_agents_present = "Yes"
 					print("Terminal Server Agent configured on Device IP:", ip, "could not be contacted.")
 
