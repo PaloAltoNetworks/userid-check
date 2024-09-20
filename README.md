@@ -70,23 +70,23 @@ usage: userid-check.py [-h] [-x] [-w [W]] [-o] [-c] [-n [N]]
 
 Usage Examples:
 
-	python3 redist-check.py -x
+	python3 userid-check.py -x
 
-	python3 redist-check.py -x -w
+	python3 userid-check.py -x -w
 
-	python3 redist-check.py -x -o -w
+	python3 userid-check.py -x -o -w
 
-	python3 redist-check.py -c -x -o -w
+	python3 userid-check.py -c -x -o -w
 
-	python3 redist-check.py -x -w yourfile.html
+	python3 userid-check.py -x -w yourfile.html
 
-	python3 redist-check.py -x -o -w yourfile.html
+	python3 userid-check.py -x -o -w yourfile.html
 
-	python3 redist-check.py -c -x -o -w yourfile.html
+	python3 userid-check.py -c -x -o -w yourfile.html
 
-	python3 redist-check.py -c -x -o -w -n
+	python3 userid-check.py -c -x -o -w -n
 
-	python3 redist-check.py -c -x -o -w yourfile.html -n yourdiagram.png
+	python3 userid-check.py -c -x -o -w yourfile.html -n yourdiagram.png
 
 optional arguments:
   -h, --help  show this help message and exit
