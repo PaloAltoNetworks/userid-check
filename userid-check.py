@@ -43,7 +43,7 @@ e = ""
 
 parser = argparse.ArgumentParser(add_help=True,
 					formatter_class=RawTextHelpFormatter,
-					description='Usage Examples: \n\n\tpython3 redist-check.py -x\n\n\tpython3 redist-check.py -x -w\n\n\tpython3 redist-check.py -x -o -w\n\n\tpython3 redist-check.py -c -x -o -w\n\n\tpython3 redist-check.py -x -w yourfile.html\n\n\tpython3 redist-check.py -x -o -w yourfile.html\n\n\tpython3 redist-check.py -c -x -o -w yourfile.html\n\n\tpython3 redist-check.py -c -x -o -w -n\n\n\tpython3 redist-check.py -c -x -o -w yourfile.html -n yourdiagram.png')
+					description='Usage Examples: \n\n\tpython3 userid-check.py -x\n\n\tpython3 userid-check.py -x -w\n\n\tpython3 userid-check.py -x -o -w\n\n\tpython3 userid-check.py -c -x -o -w\n\n\tpython3 userid-check.py -x -w yourfile.html\n\n\tpython3 userid-check.py -x -o -w yourfile.html\n\n\tpython3 userid-check.py -c -x -o -w yourfile.html\n\n\tpython3 userid-check.py -c -x -o -w -n\n\n\tpython3 userid-check.py -c -x -o -w yourfile.html -n yourdiagram.png')
 
 parser.add_argument("-x", action = "store_true", help="Optional - Disable Links Pop-Up")
 
