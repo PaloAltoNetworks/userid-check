@@ -157,7 +157,7 @@ def get_devices():
 			with open(filename) as df:
 			   devices = df.read().splitlines()
 
-			devices = [x.replace(' ', '') for x in devices]
+			devices = [x.replace(' ', '') for x in devices] # type: ignore
 
 			while("" in devices):
 				devices.remove("")
@@ -170,7 +170,7 @@ def get_devices():
 			with open(filename) as df:
 			   devices = df.read().splitlines()
 
-			devices = [x.replace(' ', '') for x in devices]
+			devices = [x.replace(' ', '') for x in devices] # type: ignore
 
 			while("" in devices):
 				devices.remove("")
@@ -741,7 +741,7 @@ if args.w:
 	with open(html_file, 'r', encoding='utf-8') as file:
 	  filedata = file.read()
 	
-	filedata = filedata.replace('<body>', '<body><center>').replace('</body>', '</body></center>')
+	filedata = filedata.replace('<body>', '<body><center>').replace('</body>', '</body></center>') # type: ignore
 
 	with open(html_file, 'w', encoding='utf-8') as file:
 	  file.write(filedata)
