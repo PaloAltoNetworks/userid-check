@@ -98,8 +98,8 @@ supported_panos_table.add_column("IP Address", width=18, justify="center")
 supported_panos_table.add_column("Model", justify="center")
 supported_panos_table.add_column("SW Version", justify="center")
 supported_panos_table.add_column("Suggested PANOS Version", justify="center")
-supported_panos_table.add_column("User-ID Agents Present?", justify="center")
-supported_panos_table.add_column("TS Agents Present?", justify="center")
+supported_panos_table.add_column("User-ID Agent Config Present?", justify="center")
+supported_panos_table.add_column("TS Agent Config Present?", justify="center")
 
 unsupported_panos_table = Table(title="PANOS Devices with Agents that require PANOS Upgrades", show_header=True, header_style="bold magenta", show_lines=True, title_justify="center", show_edge=True)
 unsupported_panos_table.add_column("Device Name", justify="center")
@@ -108,8 +108,8 @@ unsupported_panos_table.add_column("IP Address", width=18, justify="center")
 unsupported_panos_table.add_column("Model", justify="center")
 unsupported_panos_table.add_column("SW Version", justify="center")
 unsupported_panos_table.add_column("Suggested PANOS Version", justify="center")
-unsupported_panos_table.add_column("User-ID Agents Present?", justify="center")
-unsupported_panos_table.add_column("TS Agents Present?", justify="center")
+unsupported_panos_table.add_column("User-ID Agent Config Present?", justify="center")
+unsupported_panos_table.add_column("TS Agent Config Present?", justify="center")
 
 ignore_panos_table = Table(title="PANOS Devices without Agents", show_header=True, header_style="bold magenta", show_lines=True, title_justify="center", show_edge=True)
 ignore_panos_table.add_column("Device Name", justify="center")
@@ -118,8 +118,8 @@ ignore_panos_table.add_column("IP Address", width=18, justify="center")
 ignore_panos_table.add_column("Model", justify="center")
 ignore_panos_table.add_column("SW Version", justify="center")
 ignore_panos_table.add_column("Suggested PANOS Version", justify="center")
-ignore_panos_table.add_column("User-ID Agents Present?", justify="center")
-ignore_panos_table.add_column("TS Agents Present?", justify="center")
+ignore_panos_table.add_column("User-ID Agent Config Present?", justify="center")
+ignore_panos_table.add_column("TS Agent Config Present?", justify="center")
 
 supported_agent_table = Table(title="Discovered Agents that are on a Supported Agent Version", show_header=True, header_style="bold magenta", show_lines=True, title_justify="center", show_edge=True)
 supported_agent_table.add_column("Agent IP", justify="center")
@@ -321,6 +321,7 @@ def process_list(ip):
 			full_url = "https://" + ip + uri6
 			user_id_config_response = requests.post(full_url, verify=False)
 			user_id_agents = xmltodict.parse(user_id_config_response.text)
+			microsoft = False
 			if 'result' in user_id_agents['response']:
 				agent_info = user_id_agents['response']['result']
 				if "Host: " in agent_info:
@@ -340,77 +341,82 @@ def process_list(ip):
 
 						if "OS: " in line:
 							agent_os = line.split('OS: ')[1].split('\n')[0]
+							if 'Microsoft' in agent_os:
+								microsoft = True
+							else:
+								microsoft = False
 
-						if "Product Version: " in line:
-							agent_version = line.split('Product Version: ')[1].split('\n')[0]
-							context = SSL.Context(SSL.SSLv23_METHOD)
-							conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
-							conn.set_connect_state()
-							conn.settimeout(5)
-							timeout = 5
-							if timeout is not None:
-								start = time.time()
-							last_remain = timeout
+						if microsoft == True:
+							if "Product Version: " in line:
+								agent_version = line.split('Product Version: ')[1].split('\n')[0]
+								context = SSL.Context(SSL.SSLv23_METHOD)
+								conn = SSL.Connection(context, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+								conn.set_connect_state()
+								conn.settimeout(5)
+								timeout = 5
+								if timeout is not None:
+									start = time.time()
+								last_remain = timeout
 
-							try:
-								conn.connect((userid_agent_ip, int(agent_port)))
-								conn.setblocking(1)
-								conn.do_handshake()
-								cert = conn.get_peer_certificate()
-								conn.close()
-								date_format = '%Y-%m-%d %H:%M:%S'
-								expiration_date = datetime.datetime.strptime(cert.get_notAfter().decode("ascii"), "%Y%m%d%H%M%SZ")
-								if datetime.datetime.strptime(str(expiration_date), date_format) <= datetime.datetime(2024, 11, 18, 18, 50, 33):
-									check_version = float(".".join(agent_version.split(".")[:2]))
-									if check_version == 9.0:
-										agent_upgrade = "9.0.6-101"
-									if check_version == 9.1:
-										agent_upgrade = "9.1.5-108"
-									if check_version == 10.0:
-										agent_upgrade = "10.0.7-104"
-									if check_version == 10.1:
-										agent_upgrade = "10.1.2-104"
-									if check_version == 10.2:
-										agent_upgrade = "10.2.3-103"
-									if check_version == 11.0:
-										agent_upgrade = "11.0.1-104"
-
-									device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
-									agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
-									agent_ip.append(userid_agent_ip)
-									agent_diagram_list.append([userid_agent_ip, agent_type, model, devicename, serial, ip])
-
-								else:
-									agent_upgrade = "Supported Agent Version"
-									device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
-									agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
-									agent_ip.append(userid_agent_ip)
-
-							except IOError:
-								userid_agents_present = "Yes"
-								agent_ip_failed.append(userid_agent_ip)
-								print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-
-							except SSL.SysCallError:
-								userid_agents_present = "Yes"
-								agent_ip_failed.append(userid_agent_ip)
-								print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-
-							except (OpenSSL.SSL.WantReadError, OpenSSL.SSL.WantWriteError) as exc:
-								userid_agents_present = "Yes"
-								agent_ip_failed.append(userid_agent_ip)
-								print("ReadError")
-								print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
-								remain = timeout - (time.time() - start)
-								t_step = last_remain - remain
-								last_remain = remain
-								if remain < 0:
+								try:
+									conn.connect((userid_agent_ip, int(agent_port)))
 									conn.setblocking(1)
-									raise TimeoutError
-								readable, writable, errored = select.select([sock], [], [], remain)
-								# print("select", (readable, writable, errored))
-								continue
+									conn.do_handshake()
+									cert = conn.get_peer_certificate()
+									conn.close()
+									date_format = '%Y-%m-%d %H:%M:%S'
+									expiration_date = datetime.datetime.strptime(cert.get_notAfter().decode("ascii"), "%Y%m%d%H%M%SZ")
+									if datetime.datetime.strptime(str(expiration_date), date_format) <= datetime.datetime(2024, 11, 18, 18, 50, 33):
+										check_version = float(".".join(agent_version.split(".")[:2]))
+										if check_version == 9.0:
+											agent_upgrade = "9.0.6-101"
+										if check_version == 9.1:
+											agent_upgrade = "9.1.5-108"
+										if check_version == 10.0:
+											agent_upgrade = "10.0.7-104"
+										if check_version == 10.1:
+											agent_upgrade = "10.1.2-104"
+										if check_version == 10.2:
+											agent_upgrade = "10.2.3-103"
+										if check_version == 11.0:
+											agent_upgrade = "11.0.1-104"
 
+										device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
+										agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
+										agent_ip.append(userid_agent_ip)
+										agent_diagram_list.append([userid_agent_ip, agent_type, model, devicename, serial, ip])
+
+									else:
+										agent_upgrade = "Supported Agent Version"
+										device_table.add_row(devicename, serial, ip, model, panos_version, recommended_version, userid_agent_ip, agent_type, agent_version, agent_upgrade)
+										agent_list.append([userid_agent_ip, agent_type, agent_version, agent_upgrade])
+										agent_ip.append(userid_agent_ip)
+
+								except IOError:
+									userid_agents_present = "Yes"
+									agent_ip_failed.append(userid_agent_ip)
+									print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+
+								except SSL.SysCallError:
+									userid_agents_present = "Yes"
+									agent_ip_failed.append(userid_agent_ip)
+									print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+
+								except (OpenSSL.SSL.WantReadError, OpenSSL.SSL.WantWriteError) as exc:
+									userid_agents_present = "Yes"
+									agent_ip_failed.append(userid_agent_ip)
+									print("ReadError")
+									print("User-ID Agent with IP Address:", userid_agent_ip, "could not be contacted.  This agent is configured on Device IP:", ip)
+									remain = timeout - (time.time() - start)
+									t_step = last_remain - remain
+									last_remain = remain
+									if remain < 0:
+										conn.setblocking(1)
+										raise TimeoutError
+									readable, writable, errored = select.select([sock], [], [], remain)
+									# print("select", (readable, writable, errored))
+									continue
+						
 				else:
 					userid_agents_present = "No"
 					pass
@@ -626,7 +632,7 @@ agent_list.sort()
 agent_list = [agent_list[i] for i in range(len(agent_list)) if i == 0 or agent_list[i] != agent_list[i-1]]
 
 if args.c:
-	panos_fields = ['Device Name', 'Serial Number', 'IP Address', 'Model', 'SW Version', 'Suggested PANOS Version', 'User-ID Agents Present?', 'TS Agents Present?']
+	panos_fields = ['Device Name', 'Serial Number', 'IP Address', 'Model', 'SW Version', 'Suggested PANOS Version', 'User-ID Agent Config Present?', 'TS Agent Config Present?']
 	agent_fields = ['Agent IP', 'Agent Type', 'Agent Version', 'Suggested Agent Version']
 
 	with open(panos_devices, 'w') as s:
