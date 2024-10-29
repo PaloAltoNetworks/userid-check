@@ -60,6 +60,14 @@ python3 -m pip install
 python -m pip install --upgrade --user urllib3
 python -m pip install
 ```
+
+## Potential Problems with Windows Users
+With the current requirements the users will face a problem executing the command pip install -r requirements.txt when the melson library will try to compile but there wont be any compiler installed on the machine.
+
+## Suggested fix
+Notify the users to prevent those errors installing Visual Studio Build Tools and enabling the "Desktop Application Development with C++" flag.
+That operation will install all the necessary compilers to correctly compile the melson library.
+
 ## Step 3
 
 After installing the requirements, type the following command:
