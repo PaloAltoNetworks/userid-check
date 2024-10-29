@@ -62,7 +62,7 @@ python -m pip install
 ```
 
 ## Potential Problems with Windows Users
-With the current requirements the users will face a problem executing the command pip install -r requirements.txt when the melson library will try to compile but there wont be any compiler installed on the machine.
+With the current requirements the users might face a problem executing the command pip install -r requirements.txt when the melson library will try to compile but there wont be any compiler installed on the machine.
 
 ## Suggested fix
 Notify the users to prevent those errors installing Visual Studio Build Tools and enabling the "Desktop Application Development with C++" flag.
