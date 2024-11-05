@@ -368,6 +368,8 @@ def process_list(ip):
 									expiration_date = datetime.datetime.strptime(cert.get_notAfter().decode("ascii"), "%Y%m%d%H%M%SZ")
 									if datetime.datetime.strptime(str(expiration_date), date_format) <= datetime.datetime(2024, 11, 18, 18, 50, 33):
 										check_version = float(".".join(agent_version.split(".")[:2]))
+										if check_version == 8.1:
+											agent_upgrade = "9.1.5-108"
 										if check_version == 9.0:
 											agent_upgrade = "9.1.5-108"
 										if check_version == 9.1:
